@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{tikz}
+
+\title{Système de Lorenz}
+\author{Salomé COUDIERE, Louka OUKALA, Adrien CHABERT}
+\date{Semestre 6}
+
+\newcommand*\colv[1]{
+\left(\begin{array}{c}
+    #1
+\end{array}\right)
+}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\deriv}[3][ ]{
+    \ensuremath{\frac{\mathrm{d}^{#1}#2}{\mathrm{d}^{#1} #3}}
+}
+
+\newcommand{\cad}{c'est-\`a-dire }
+
+\begin{document}
+
+\begin{equation}
+    \label{Lorenz}
+    \left\{
+    \begin{array}{rl}
+        x' &=\sigma(y-x) \\
+        y' &=\rho x -y +xz\\
+        z' &=xy - \beta z
+    \end{array}
+    \right.
+    \begin{array}{r}
+        (L_1)\\
+        (L_2)\\
+        (L_3)
+    \end{array}
+\end{equation}
+On peut récrire ce systeme de la manière suivante.
+\begin{equation}
+\deriv{\Vec{u}}{t} = \Gamma(\Vec{u}), \quad
+\Gamma : \Vec{u} = \colv{x\\y\\z} \in \R^3 \mapsto \colv{\sigma(y-x) \\ \rho x-y-xz \\ xy-\beta z}
+\end{equation}
+Remarquons que $\Gamma$ est polynomiale, donc $\Gamma$ est de classe $C^\infty$ en particulier elle est $C^1$. 
+D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution maximale de classe $C^1$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I$ de la forme $]0,T[,\ T \in ]0,+\infty]$. Montrons que $(I,(x,y,z))$ est globale. Dans \eqref{Lorenz} on s'intéresse à la quantité: $x(L_1) + y(L_2) + z(L_3)$
+\[
+    xx'+yy'+zz' = \sigma yx - \sigma x^2 + \rho xy - y^2 -xyz + xyz - \beta z^2\\
+\]  
+Posons $\mathcal{N}: (x,y,z) \in \R^3 \mapsto x^2 + y^2 + z^2$ (N est la norme euclidienne au carré)
+\begin{align*}
+    \Rightarrow \frac{1}{2}\deriv{ }{t}\bigg(\mathcal{N}(x,y,z)\bigg) & = & (\sigma + \rho)xy -\sigma x^2 - y^2 - \beta z^2\\
+    & \le & (\sigma + \rho)xy -\min (1,\sigma,\rho)\mathcal{N}(x,y,z)\\
+    \mathit{(Young)}\footnotemark & \le & (\frac{\sigma+\rho}{2})(x^2 + y^2) + \mathcal{N}(x,y,z)\\
+    & \le & (\frac{\sigma+\rho}{2})(x^2 + y^2 + z^2) + \mathcal{N}(x,y,z)\\
+    & \le & \bigg[\frac{\sigma + \rho}{2} - \min (1,\sigma,\rho) \bigg] \mathcal{N}(x,y,z)
+\end{align*}
+\footnotetext{$\forall p,q \in \mathbb{N}\: \text{tels que} \frac{1}{p}+\frac{1}{g}=1 \Rightarrow \forall a,b \in \R \: ab \le \frac{a^p}{p}+\frac{b^q}{q}$}
+
+Posons $ \eta = \sigma + \rho - 2 \min (1,\sigma,\rho))$. On a alors: 
+\[
+    \forall t \in \R_+, \: \deriv{}{t}\bigg( \mathcal{N}(x,y,z)\bigg) \le \eta\: \mathcal{N}(x,y,z)
+\]
+D'après le lemme de Grönwall il vient:
+\[
+    \forall t \in \R_+,\: \mathcal{N}(x,y,z)(t) \le \mathcal{N}_0 e^{\eta t},\: \textrm{avec } \mathcal{N}_0 = \mathcal{N}(x,y,z)(0)
+\]
+Donc la norme du vecteur solution n'explose pas en temps fini. En effet supposons par l'absurde que la norme du vecteur (x,y,z) explose en temps fini \cad: 
+\[
+\exists t_0 \in \R_+ \textrm{tel que } \lim_{t \to t_0} \mathcal{N}(x,y,z)(t)=+\infty \  \textrm{mais, } \\
+\lim_{t\to t_0} \mathcal{N}_0 e^{\eta t} = \mathcal{N}_0 e^{\eta t_0} \le + \infty
+\]
+Or,
+\[\forall t \in \R_+ \: \mathcal{N}(x,y,z)(t) \le \mathcal{N}_0 e^{\eta t}
+\]On obtient alors une absurdité. Donc $\mathcal{N}(x,y,z)$ n'explose pas en temps fini. On en déduit que $(x,y,z)$ n'explose pas en temps fini. En effet suposons que une des composante explose en temps fini par exemple $x$, \cad:
+\begin{gather*}
+    \exists t_* \in \R_+ \: \textrm{tel que} \lim_{t \to t_*} x(t) = + \infty\\
+    \textrm{Or, } \forall t \in \R_+ \: x(t) \le x^2(t) + y^2(t) + z^2(t) \le \mathcal{N}_0 e^{\eta t}
+\end{gather*}
+En passant \`a la limte dans l'inéquation précédente on obtient une absurdité donc (x,y,z) est une solution globale de \eqref{Lorenz} \cad $I=\R_+$
+
+%solution C inf
+Par définition de \eqref{Lorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$\\
+%pts stationnaires
+On cherche maintenant les points stationnaire de \eqref{Lorenz}.\\
+On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3} \equiv 0$ donc ($\R$,0) est une solution de l'equation differentielle.\\
+On resout alors $\Gamma(x,y,z)=0$ en supposant que $(x,y,z) \neq 0$, il vient:
+\[
+\left\{\begin{array}{rl}
+     \sigma(y-x)&=0  \\
+     \rho x -y -xz&=0\\
+     xy - \beta z&=0
+\end{array}\right.
+\begin{array}{c}
+    (L_1)\\
+    (L_2)\\
+    (L_3)
+\end{array}
+\]
+
+\end{document}
