@@ -81,7 +81,11 @@ Or,
     \exists t_* \in \R_+ \: \textrm{tel que} \lim_{t \to t_*} x(t) = + \infty\\
     \textrm{Or, } \forall t \in \R_+ \: x(t) \le x^2(t) + y^2(t) + z^2(t) \le \mathcal{N}_0 e^{\eta t}
 \end{gather*}
-En passant \`a la limte dans l'inéquation précédente on obtient une absurdité donc (x,y,z) est une solution globale de \eqref{Lorenz} \cad $I=\R_+$
+En passant \`a la limte dans l'inéquation précédente on obtient:
+\[
+    lim_{t \to t_*} x(t) < \lim_{t \to t_*} \mathcal{N}_0 e^{\eta t}
+\]
+c'est une absurdité donc (x,y,z) est une solution globale de \eqref{Lorenz} \cad $I=\R_+$
 
 %solution C inf
 Par définition de \eqref{Lorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$\\
@@ -90,16 +94,28 @@ On cherche maintenant les points stationnaire de \eqref{Lorenz}.\\
 On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3} \equiv 0$ donc ($\R$,0) est une solution de l'equation differentielle.\\
 On resout alors $\Gamma(x,y,z)=0$ en supposant que $(x,y,z) \neq 0$, il vient:
 \[
-\left\{\begin{array}{rl}
+\left\{\begin{array}{rl} %O of Gamma
      \sigma(y-x)&=0  \\
      \rho x -y -xz&=0\\
      xy - \beta z&=0
 \end{array}\right.
-\begin{array}{c}
+\begin{array}{c} %Num eq
     (L_1)\\
     (L_2)\\
     (L_3)
 \end{array}
 \]
+de $(L_1)$ on obtient que $x=y$. Dans $(L_2)$ on remplace $y$ par $x$, il vient alors:
+\[
+    (L_2) \Rightarrow \rho x - x - xz = 0 \Rightarrow x (\rho -1 -z ) = 0 \Rightarrow z = \rho -1
+\]
+De m\^eme dans $(L_3)$
+\[
+    (L_3) \Rightarrow x^2 - \beta z = 0 \Rightarrow z = \pm \sqrt{\beta z}
+\]
+De ces trois équation on obtient que:\[
+    \Gamma(x,y,z)=0 \Rightarrow (x,y,z) = (\pm \sqrt{ \beta (\rho -1)} ,\pm \sqrt{\beta (\rho -1)}, \rho -1)   
+\]
+On verifie aisaiment que cette relation est une \'equivalance, en ramplacant les valeurs obtenue de $x$,$y$ et $z$ dans $\Gamma(x,y,z)$
 
 \end{document}
