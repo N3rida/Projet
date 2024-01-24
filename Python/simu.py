@@ -1,6 +1,5 @@
 import numpy as np 
 from matplotlib import pyplot as plt 
-from scipy.integrate import solve_ivp
 
 sigma,rho,beta = 10,28,8/3
 
@@ -19,14 +18,21 @@ def RK4(tn,h,Y:np.array,f):
     Yout = Y + (h/6)*(k1 + 2*k2 + 2*k3 + k4)
     return np.array(Yout)
 
+def NEuclid(X):
+    N=0
+    for i in X:
+        N += i**2
+    return N
+
 Total = 30
 h = .01
-epsilon = .01
 nbInterv = int(Total/h)
-t = np.linspace(0,10,nbInterv)
 Y = np.zeros((nbInterv,3))
 Y[0] = [6,4,2]
 
+t = np.linspace(0,Total,nbInterv)
+
+epsilon = .01
 Ye = np.zeros((nbInterv,3))
 Ye[0] = Y[0] + epsilon
 
@@ -36,10 +42,16 @@ for i in range(1,nbInterv):
     Y[i] = Yout
     Ye[i] = Yeout
 
-ax = plt.figure().add_subplot(projection='3d')
-ax.plot3D(Y[:,0],Y[:,1],Y[:,2], color = 'red')
-ax.plot3D(Ye[:,0],Ye[:,1],Ye[:,2], color = 'green')
-ax.plot(Y[-1,0],Y[-1,1],Y[-1,2], color = 'red', marker = 'o')
-ax.plot(Ye[-1,0],Ye[-1,1],Ye[-1,2], color = 'green', marker = 'o')
-ax.plot(6,4,2,color = 'grey' , marker = 'o')
+# ax = plt.figure().add_subplot(projection='3d')
+# ax.plot3D(Y[:,0],Y[:,1],Y[:,2], color = 'red')
+# ax.plot3D(Ye[:,0],Ye[:,1],Ye[:,2], color = 'green')
+# ax.plot(Y[-1,0],Y[-1,1],Y[-1,2], color = 'red', marker = 'o')
+# ax.plot(Ye[-1,0],Ye[-1,1],Ye[-1,2], color = 'green', marker = 'o')
+# ax.plot(6,4,2,color = 'grey' , marker = 'o')
+# plt.show()
+delta = np.zeros(nbInterv)
+for i in range(nbInterv):
+    delta[i] = NEuclid(Y[i] - Ye[i])
+
+plt.plot(t,delta)
 plt.show()
