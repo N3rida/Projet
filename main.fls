@@ -1,8 +1,8 @@
-PWD c:/Users/chabe/Documents/L3/PROJET
+PWD c:/Users/chabe/Documents/L3/PROJET/Projet
 INPUT c:/texlive/2023/texmf.cnf
 INPUT c:/texlive/2023/texmf-dist/web2c/texmf.cnf
 INPUT c:/Users/chabe/.texlive2023/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT c:/Users/chabe/Documents/L3/PROJET/main.tex
+INPUT c:/Users/chabe/Documents/L3/PROJET/Projet/main.tex
 OUTPUT main.log
 INPUT c:/texlive/2023/texmf-dist/tex/latex/base/article.cls
 INPUT c:/texlive/2023/texmf-dist/tex/latex/base/article.cls
