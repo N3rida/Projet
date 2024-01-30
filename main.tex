@@ -54,14 +54,14 @@ D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une 
 Posons $\mathcal{N}: (x,y,z) \in \R^3 \mapsto x^2 + y^2 + z^2$ (N est la norme euclidienne au carré)
 \begin{align*}
     \Rightarrow \frac{1}{2}\deriv{ }{t}\bigg(\mathcal{N}(x,y,z)\bigg) & = & (\sigma + \rho)xy -\sigma x^2 - y^2 - \beta z^2\\
-    & \le & (\sigma + \rho)xy -\min (1,\sigma,\rho)\mathcal{N}(x,y,z)\\
-    \mathit{(Young)}\footnotemark & \le & (\frac{\sigma+\rho}{2})(x^2 + y^2) + \mathcal{N}(x,y,z)\\
-    & \le & (\frac{\sigma+\rho}{2})(x^2 + y^2 + z^2) + \mathcal{N}(x,y,z)\\
-    & \le & \bigg[\frac{\sigma + \rho}{2} - \min (1,\sigma,\rho) \bigg] \mathcal{N}(x,y,z)
+    & \le & (\sigma + \rho)xy -\min (1,\sigma,\beta)\mathcal{N}(x,y,z)\\
+    \mathit{(Young)}\footnotemark & \le & (\frac{\sigma+\rho}{2})(x^2 + y^2) -\min (1,\sigma,\beta) \mathcal{N}(x,y,z)\\
+    & \le & (\frac{\sigma+\rho}{2})(x^2 + y^2 + z^2) -\min (1,\sigma,\beta) \mathcal{N}(x,y,z)\\
+    & \le & \bigg[\frac{\sigma + \rho}{2} - \min (1,\sigma,\beta) \bigg] \mathcal{N}(x,y,z)
 \end{align*}
-\footnotetext{$\forall p,q \in \mathbb{N}\: \text{tels que} \frac{1}{p}+\frac{1}{g}=1 \Rightarrow \forall a,b \in \R \: ab \le \frac{a^p}{p}+\frac{b^q}{q}$}
+\footnotetext{$\forall p,q \in \mathbb{N}\: \text{tels que} \frac{1}{p}+\frac{1}{q}=1 \Rightarrow \forall a,b \in \R \: ab \le \frac{a^p}{p}+\frac{b^q}{q}$}
 
-Posons $ \eta = \sigma + \rho - 2 \min (1,\sigma,\rho))$. On a alors: 
+Posons $ \eta = \sigma + \rho - 2 \min (1,\sigma,\beta))$. On a alors: 
 \[
     \forall t \in \R_+, \: \deriv{}{t}\bigg( \mathcal{N}(x,y,z)\bigg) \le \eta\: \mathcal{N}(x,y,z)
 \]
@@ -85,7 +85,7 @@ En passant \`a la limte dans l'inéquation précédente on obtient:
 \[
     lim_{t \to t_*} x(t) < \lim_{t \to t_*} \mathcal{N}_0 e^{\eta t}
 \]
-c'est une absurdité donc (x,y,z) est une solution globale de \eqref{Lorenz} \cad $I=\R_+$
+c'est une absurdité donc $(x,y,z)$ est une solution globale de \eqref{Lorenz} \cad $I=\R_+$
 
 %solution C inf
 Par définition de \eqref{Lorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$\\
@@ -116,6 +116,12 @@ De m\^eme dans $(L_3)$
 De ces trois équation on obtient que:\[
     \Gamma(x,y,z)=0 \Rightarrow (x,y,z) = (\pm \sqrt{ \beta (\rho -1)} ,\pm \sqrt{\beta (\rho -1)}, \rho -1)   
 \]
-On verifie aisaiment que cette relation est une \'equivalance, en ramplacant les valeurs obtenue de $x$,$y$ et $z$ dans $\Gamma(x,y,z)$
+On verifie aisaiment que cette relation est une \'equivalance, en ramplacant les valeurs obtenue de $x$,$y$ et $z$ dans $\Gamma(x,y,z)$\\
+
+Dans la partie précédente on a obtenue l'inégalité suivante:\[
+    \forall t \in \R_+,\: \mathcal{N}(x,y,z)(t) \le \mathcal{N}_0 e^{\eta t},\: \textrm{avec } \mathcal{N}_0 = \mathcal{N}(x,y,z)(0)
+\]
+On remarque ainsi que selon le signe de $\eta$ notre solution $(\R_+,(x,y,z))$ peut être bornée, dans le cas de notre étude $\sigma = 10,\ \rho = 28,\ \beta = \frac{8}{3}$ on a $\eta = 10 + 28 - 2*1 = 36$
+
 
 \end{document}
