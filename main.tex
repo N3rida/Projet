@@ -16,6 +16,7 @@
     #1
 \end{array}\right)
 }
+
 \newcommand{\R}{\mathbb{R}}
 
 \newcommand{\deriv}[3][ ]{
@@ -46,49 +47,42 @@ On peut récrire ce systeme de la manière suivante.
 \deriv{\Vec{u}}{t} = \Gamma(\Vec{u}), \quad
 \Gamma : \Vec{u} = \colv{x\\y\\z} \in \R^3 \mapsto \colv{\sigma(y-x) \\ \rho x-y-xz \\ xy-\beta z}
 \end{equation}
-Remarquons que $\Gamma$ est polynomiale, donc $\Gamma$ est de classe $C^\infty$ en particulier elle est $C^1$. 
-D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution maximale de classe $C^1$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I$ de la forme $]0,T[,\ T \in ]0,+\infty]$. Montrons que $(I,(x,y,z))$ est globale. Dans \eqref{Lorenz} on s'intéresse à la quantité: $x(L_1) + y(L_2) + z(L_3)$
+Remarque: $\Gamma$ est polynomiale, donc $\Gamma$ est de classe $C^\infty$ en particulier elle est $C^1$.
+
+\underline{\textbf{Proposition:}} Les solutions du systeme de Lorenz sont globales sur $\R_+$\\
+
+\underline{\textbf{Demonstration:}}
+$\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution maximale de classe $C^1$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = ]0,T[,\ T \in ]0,+\infty]$. Montrons que $(I,(x,y,z))$ est globale. Dans \eqref{Lorenz} on s'intéresse à la quantité: $x(L_1) + y(L_2) + z(L_3)$
 \[
     xx'+yy'+zz' = \sigma yx - \sigma x^2 + \rho xy - y^2 -xyz + xyz - \beta z^2\\
 \]  
-Posons $\mathcal{N}: (x,y,z) \in \R^3 \mapsto x^2 + y^2 + z^2$ (N est la norme euclidienne au carré)
+Posons $\mathcal{N}: (t) \in \R^3 \mapsto x(t)^2 + y(t)^2 + z(t)^2$ ($\mathcal{N}$ est la norme euclidienne au carré)
+
 \begin{align*}
-    \Rightarrow \frac{1}{2}\deriv{ }{t}\bigg(\mathcal{N}(x,y,z)\bigg) & = & (\sigma + \rho)xy -\sigma x^2 - y^2 - \beta z^2\\
-    & \le & (\sigma + \rho)xy -\min (1,\sigma,\beta)\mathcal{N}(x,y,z)\\
-    \mathit{(Young)}\footnotemark & \le & (\frac{\sigma+\rho}{2})(x^2 + y^2) -\min (1,\sigma,\beta) \mathcal{N}(x,y,z)\\
-    & \le & (\frac{\sigma+\rho}{2})(x^2 + y^2 + z^2) -\min (1,\sigma,\beta) \mathcal{N}(x,y,z)\\
-    & \le & \bigg[\frac{\sigma + \rho}{2} - \min (1,\sigma,\beta) \bigg] \mathcal{N}(x,y,z)
+    \Rightarrow \frac{1}{2}\deriv{ }{t}\mathcal{N}(t) & =(\sigma + \rho)xy -\sigma x^2 - y^2 - \beta z^2\\
+    & \le (\sigma + \rho)xy +\min (1,\sigma,\beta)\mathcal{N}(t)\\
+    & \le (\frac{\sigma+\rho}{2})(x^2 + y^2) +\min (1,\sigma,\beta) \mathcal{N}(t) &&\mathit{(Young)}\footnotemark \\
+    & \le (\frac{\sigma+\rho}{2})(x^2 + y^2 + z^2) +\min (1,\sigma,\beta) \mathcal{N}(t)\\
+    & \le \bigg[\frac{\sigma + \rho}{2} + \min (1,\sigma,\beta) \bigg] \mathcal{N}(t)
 \end{align*}
 \footnotetext{$\forall p,q \in \mathbb{N}\: \text{tels que} \frac{1}{p}+\frac{1}{q}=1 \Rightarrow \forall a,b \in \R \: ab \le \frac{a^p}{p}+\frac{b^q}{q}$}
 
 Posons $ \eta = \sigma + \rho - 2 \min (1,\sigma,\beta))$. On a alors: 
 \[
-    \forall t \in \R_+, \: \deriv{}{t}\bigg( \mathcal{N}(x,y,z)\bigg) \le \eta\: \mathcal{N}(x,y,z)
+    \forall t \in \R_+, \  \deriv{}{t}\mathcal{N}(t) \le \eta\  \mathcal{N}(t)
 \]
 D'après le lemme de Grönwall il vient:
 \[
-    \forall t \in \R_+,\: \mathcal{N}(x,y,z)(t) \le \mathcal{N}_0 e^{\eta t},\: \textrm{avec } \mathcal{N}_0 = \mathcal{N}(x,y,z)(0)
+    \forall t \in \R_+,\  \mathcal{N}(t) \le \mathcal{N}_0 e^{\eta t},\  \textrm{avec } \mathcal{N}_0 = \mathcal{N}(0)
 \]
-Donc la norme du vecteur solution n'explose pas en temps fini. En effet supposons par l'absurde que la norme du vecteur (x,y,z) explose en temps fini \cad: 
-\[
-\exists t_0 \in \R_+ \textrm{tel que } \lim_{t \to t_0} \mathcal{N}(x,y,z)(t)=+\infty \  \textrm{mais, } \\
-\lim_{t\to t_0} \mathcal{N}_0 e^{\eta t} = \mathcal{N}_0 e^{\eta t_0} \le + \infty
-\]
-Or,
-\[\forall t \in \R_+ \: \mathcal{N}(x,y,z)(t) \le \mathcal{N}_0 e^{\eta t}
-\]On obtient alors une absurdité. Donc $\mathcal{N}(x,y,z)$ n'explose pas en temps fini. On en déduit que $(x,y,z)$ n'explose pas en temps fini. En effet suposons que une des composante explose en temps fini par exemple $x$, \cad:
-\begin{gather*}
-    \exists t_* \in \R_+ \: \textrm{tel que} \lim_{t \to t_*} x(t) = + \infty\\
-    \textrm{Or, } \forall t \in \R_+ \: x(t) \le x^2(t) + y^2(t) + z^2(t) \le \mathcal{N}_0 e^{\eta t}
-\end{gather*}
-En passant \`a la limte dans l'inéquation précédente on obtient:
-\[
-    lim_{t \to t_*} x(t) < \lim_{t \to t_*} \mathcal{N}_0 e^{\eta t}
-\]
-c'est une absurdité donc $(x,y,z)$ est une solution globale de \eqref{Lorenz} \cad $I=\R_+$
+Donc la norme du vecteur solution n'explose pas en temps fini.\\
 
 %solution C inf
-Par définition de \eqref{Lorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$\\
+\underline{\textbf{Proposition:}} Les solution de \eqref{Lorenz} sont $C^\infty$\\
+
+\underline{\textbf{Demonstration:}}
+ Par définition de \eqref{Lorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$\\
+
 %pts stationnaires
 On cherche maintenant les points stationnaire de \eqref{Lorenz}.\\
 On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3} \equiv 0$ donc ($\R$,0) est une solution de l'equation differentielle.\\
@@ -117,11 +111,35 @@ De ces trois équation on obtient que:\[
     \Gamma(x,y,z)=0 \Rightarrow (x,y,z) = (\pm \sqrt{ \beta (\rho -1)} ,\pm \sqrt{\beta (\rho -1)}, \rho -1)   
 \]
 On verifie aisaiment que cette relation est une \'equivalance, en ramplacant les valeurs obtenue de $x$,$y$ et $z$ dans $\Gamma(x,y,z)$\\
-
-Dans la partie précédente on a obtenue l'inégalité suivante:\[
-    \forall t \in \R_+,\: \mathcal{N}(x,y,z)(t) \le \mathcal{N}_0 e^{\eta t},\: \textrm{avec } \mathcal{N}_0 = \mathcal{N}(x,y,z)(0)
+On se propose d'étudier la stabilité des points stationnaires. Pour cela on s'intéresse à la linéarisé de \eqref{Lorenz}, donné par:
+\[
+\colv{x'\\y'\\z'} = \mathcal{D}_{\Gamma}(x_s,y_s,z_s)\colv{x\\y\\z}    
 \]
-On remarque ainsi que selon le signe de $\eta$ notre solution $(\R_+,(x,y,z))$ peut être bornée, dans le cas de notre étude $\sigma = 10,\ \rho = 28,\ \beta = \frac{8}{3}$ on a $\eta = 10 + 28 - 2*1 = 36$
+avec $(x_s,y_s,z_s)$ les coordonnées des points stationnaire, $\mathcal{D}_{\Gamma}(x,y,z)$ la differentielle de $\Gamma$ donné par:
+\[
+\mathcal{D}_{\Gamma}(x,y,z) =
+\begin{pmatrix}
+    \sigma & \sigma & 0 \\ \rho - z & -1 & -x \\ y & x & - \beta
+\end{pmatrix}
+\]
+On étudie premièrement l'équilibre autour de $0_{\R^3}$:\\
+L'équation ainsi obtnue est:
+\begin{equation}
+    \colv{x'\\y'\\z'} =
+    \begin{pmatrix}
+        - \sigma & \sigma & 0 \\ \rho & -1 & 0 \\ 0 & 0 & - \beta
+    \end{pmatrix}
+    \colv{x \\ y \\ z}
+\end{equation}
+Autrement dit on obtient:
+\begin{equation}
+    \left\{\begin{array}{lr}
+        x' = \sigma (y-x) \\
+        y' = \rho x - y \\
+        z' = \beta z
+    \end{array}\right.
+\end{equation}
+
 
 
 \end{document}
