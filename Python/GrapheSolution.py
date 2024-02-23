@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 sigma,rho,beta = 10,28,8/3
 
-def Lorenz(t,X:np.ndarray(3)):
+def Lorenz(t,X):
     Xout = np.zeros(3)
     Xout[0] = sigma*(X[1] - X[0])
     Xout[1] = rho*X[0] - X[1] - X[0]*X[2]
