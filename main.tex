@@ -8,7 +8,6 @@
 \usepackage{tikz}
 
 \title{Système de Lorenz}
-\author{Salomé COUDIERE, Louka OUKALA, Adrien CHABERT}
 \date{Semestre 6}
 
 \newcommand*\colv[1]{
@@ -22,6 +21,7 @@
 \newcommand{\deriv}[3][ ]{
     \ensuremath{\frac{\mathrm{d}^{#1}#2}{\mathrm{d}^{#1} #3}}
 }
+\newcommand{\id}[1][]{\ensuremath{\mathrm{Id}_{#1}}}
 
 \newcommand{\cad}{c'est-\`a-dire }
 
@@ -49,10 +49,10 @@ On peut récrire ce systeme de la manière suivante.
 \end{equation}
 Remarque: $\Gamma$ est polynomiale, donc $\Gamma$ est de classe $C^\infty$ en particulier elle est $C^1$.
 
-\underline{\textbf{Proposition:}} Les solutions du systeme de Lorenz sont globales sur $\R_+$\\
+\underline{Proposition:} Les solutions du systeme de Lorenz sont globales sur $\R_+$
 
 Demonstration:
-$\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution maximale de classe $C^1$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = ]0,T[,\ T \in ]0,+\infty]$. Montrons que $(I,(x,y,z))$ est globale. Dans \eqref{Lorenz} on s'intéresse à la quantité: $x(L_1) + y(L_2) + z(L_3)$
+$\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution maximale de classe $C^1$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = ]0,T[,\ T \in ]0,+\infty]$. Montrons que $(I,(x,y,z))$ est globale. Dans \eqref{Lorenz} on s'intéresse à la somme de la $x$ fois première ligne avec $y$ fois la seconde ligne et $z$ fois la troisième ligne.
 \[
     xx'+yy'+zz' = \sigma yx - \sigma x^2 + \rho xy - y^2 -xyz + xyz - \beta z^2\\
 \]  
@@ -78,14 +78,14 @@ D'après le lemme de Grönwall il vient:
 Donc la norme du vecteur solution n'explose pas en temps fini.\\
 
 %solution C inf
-\underline{\textbf{Proposition:}} Les solution de \eqref{Lorenz} sont $C^\infty$\\
+\underline{\textbf{Proposition:}} Les solution de \eqref{Lorenz} sont $C^\infty$
 
 Demonstration:
  Par définition de \eqref{Lorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$\\
 
 %pts stationnaires
 On cherche maintenant les points stationnaire de \eqref{Lorenz}.\\
-On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3} \equiv 0$ donc ($\R$,0) est une solution de l'equation differentielle.\\
+On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3} \equiv 0$ donc ($\R_+$,0) est une solution de l'equation differentielle.\\
 On resout alors $\Gamma(x,y,z)=0$ en supposant que $(x,y,z) \neq 0$, il vient:
 \[
 \left\{\begin{array}{rl} %O of Gamma
@@ -100,17 +100,27 @@ On resout alors $\Gamma(x,y,z)=0$ en supposant que $(x,y,z) \neq 0$, il vient:
 \end{array}
 \]
 de $(L_1)$ on obtient que $x=y$. Dans $(L_2)$ on remplace $y$ par $x$, il vient alors:
+\begin{gather*}
+    (L_2) \Rightarrow \rho x - x - xz = 0 \Rightarrow x (\rho -1 -z ) = 0 \\
+    (L_3) \Rightarrow x^2 - \beta z = 0 \Rightarrow z = \frac{x^2}{\beta}
+\end{gather*}
+On obtient ainsi:
+\begin{align*}
+    (L_2) & \Rightarrow x (\rho - 1 - \frac{x^2}{\beta}) = 0 \text{ or }x \neq 0\\
+        & \Rightarrow x^2 = \beta (1-\rho)\\
+    \text{Si } \beta(&-\rho) \ge 0 \Leftrightarrow \beta \ge 0,\rho\le 1 \text{ ou } \beta \le 0,\rho\ge 1\text{ alors:}\\
+    &\Rightarrow x = \sqrt{\beta(1-\beta)}
+\end{align*}
+
+De ces trois équation on obtient que:
 \[
-    (L_2) \Rightarrow \rho x - x - xz = 0 \Rightarrow x (\rho -1 -z ) = 0 \Rightarrow z = \rho -1
+    \Gamma(x,y,z)=0 \Rightarrow (x,y,z) = (\pm \sqrt{ \beta (\rho -1)} ,\pm \sqrt{\beta (\rho -1)}, \rho -1)
 \]
-De m\^eme dans $(L_3)$
-\[
-    (L_3) \Rightarrow x^2 - \beta z = 0 \Rightarrow z = \pm \sqrt{\beta z}
-\]
-De ces trois équation on obtient que:\[
-    \Gamma(x,y,z)=0 \Rightarrow (x,y,z) = (\pm \sqrt{ \beta (\rho -1)} ,\pm \sqrt{\beta (\rho -1)}, \rho -1)   
-\]
-On verifie aisaiment que cette relation est une \'equivalance, en ramplacant les valeurs obtenue de $x$,$y$ et $z$ dans $\Gamma(x,y,z)$\\
+
+On verifie aisément que cette relation est une \'equivalance, en ramplacant les valeurs obtenue de $x$,$y$ et $z$ dans $\Gamma(x,y,z)$
+\\
+\underline{Remarque:} Si $\rho = 0$ alors il n'y a qu'un seul équilibre
+
 On se propose d'étudier la stabilité des points stationnaires. Pour cela on s'intéresse à la linéarisé de \eqref{Lorenz}, donné par:
 \[
 \colv{x'\\y'\\z'} = \mathcal{D}_{\Gamma}(x_s,y_s,z_s)\colv{x\\y\\z}    
@@ -141,5 +151,43 @@ Autrement dit on obtient:
 \end{equation}
 
 
+%caractérisation de l'équilibre 0
+On se propose de caractériser l'équilibre $0_{\R^3}$.\\
+\textit{Rappel:} Théoreme:\\
+Soient $f\in C^2(U;E)$ et $v\in U$ tel que $f(v)=0$. Si $\max\{\Re(\lambda); \lambda\in \mathrm{Sp}(\mathcal{D}_f(v))\}$ est atteint pour une valeur propre de $\mathcal{D}_f(v)$ de partie réelle strictement positive. Alors $v$ est un point d'équilibre instable pour l'équation $u'=f(u)$ \\
+Calculons le polynome caractéristique de la differentielle de $\Gamma$ en $0_{\R^3}$, on notera se polynome $\chi$.
+\[
+    \chi (\lambda) = \det\big(\lambda\id - \mathcal{D}_{\Gamma}(0,0,0)\big) = (\lambda - \beta)(\lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma)
+\]
+Remarque: $\beta$ est toujours racine de $\chi$\\
+Posons $P:\lambda \in \R \mapsto \lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma,\text{ donc }\chi(\lambda)=(\lambda-\beta)P(\lambda)$, on calcule le deteterminant de $P$:
+\[
+  \Delta = (\sigma+1)^2 - 4(\sigma-\sigma\rho)) = (\sigma-1)^2 +4\sigma\rho
+\]
+On obtient alors un autre polynome. On étudie son signe et on différencie les cas suivant:
+
+\underline{Cas 1: Si $(\rho,\sigma)=(0,1)$:}\\
+Alors $\chi_A(x) = (x-\beta)(x+1)^2$, donc d'après le théoreme, si $\beta$ est strictement positif $0$ est un point d'équilibre instable pour \eqref{Lorenz}
+
+\underline{Cas 2: Si $(\rho,\sigma)=(1,-1)$:}\\
+Alors $\chi_A(x) = (x-\beta)x^2$, donc d'après le théoreme, si $\beta$ est strictement positif $0$ est un point d'équilibre instable pour \eqref{Lorenz}
+
+
+\underline{Cas 3: Si $\rho \in ]0,1[, \sigma \in \mathbb{R}$:}\\
+$\Delta> (\sigma-1)^2 >0$ donc $P$ a deux racines réelles.
+que l'on note: 
+\[
+    x_\pm = \frac{-(\sigma-1)\pm \sqrt{(\sigma-1)^2 + 4\sigma\rho}}{2}
+\]
+Regardons le signe des racines. $x_+ < -(\sigma-1)+ \sqrt{(\sigma+1)^2} \le 0 $, de même pour $x_-$, on a, $x_- < - \sigma +1- |\sigma - 1| \le 0$. De plus si $\beta$ est strictement négatif, toutes les racines sont strictement négative donc $0$ est un point d'équilibre asymptotiquement stable pour \eqref{Lorenz}. {\}
+
+\underline{Cas 4: Si $\rho > 1$ et $\sigma \ge 0 $: }\\
+Dans ce cas on a $\Delta > 0$, on retrouve la même expression des racines que précédemment $x_\pm$. On trouve que $2x_+ > 1-\sigma+|\sigma+1| \ge 0$, donc $x_+ > 0$, pour $x_-$ on a, $2x_- < 1-\sigma-|\sigma+1| \le 0 $, donc $x_- < 0$, dans ce cas $0$ est un équilibre instable pour \eqref{Lorenz}.
+
+\underline{Cas 5: Si $\rho<0$ et $\sigma\le 0$:}\\
+Comme dans le cas précédent on trouve $\Delta>0$ avce cette fois $x_+ < 0$ et $x_- >0$. On le retrouve en majorant $2x_+$ et $2x_-$ par $\rho=0$ on majore ainsi $x_+$ et minore $x_-$. Donc $0$ est un équilbre instable pour \eqref{Lorenz}.
+
+
+\underline{Remarque:} Les cas 1,3,4,5 sont des point d'équilibre hyperbolique de \eqref{Lorenz} en effet, $\mathrm{Sp}(A)\cap \mathrm{Vect}(i)= \emptyset$
 
 \end{document}

@@ -4,3 +4,7 @@ main.fls
 main.log
 main.synctex.gz
 pdflatex11144.fls
+\Python\IMG
+__pycache__
+test.py
+compile_gif.py
