@@ -6,9 +6,10 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{tikz}
+\usepackage{thmbox}
 
 \title{Système de Lorenz}
-\date{Semestre 6}
+
 
 \newcommand*\colv[1]{
 \left(\begin{array}{c}
@@ -25,7 +26,15 @@
 
 \newcommand{\cad}{c'est-\`a-dire }
 
+\newtheorem[M]{prop}{Proposition}[section]
+\newtheorem[M]{propt}{Propriété}[section]
+\newtheorem[L]{thm}{Théoreme}
+\newtheorem[L]{cor}{Corollaire}
+
 \begin{document}
+\maketitle
+
+\section*{Introduction}
 
 \begin{equation}
     \label{Lorenz}
@@ -42,17 +51,26 @@
         (L_3)
     \end{array}
 \end{equation}
-On peut récrire ce systeme de la manière suivante.
+
 \begin{equation}
-\deriv{\Vec{u}}{t} = \Gamma(\Vec{u}), \quad
-\Gamma : \Vec{u} = \colv{x\\y\\z} \in \R^3 \mapsto \colv{\sigma(y-x) \\ \rho x-y-xz \\ xy-\beta z}
-\end{equation}
-Remarque: $\Gamma$ est polynomiale, donc $\Gamma$ est de classe $C^\infty$ en particulier elle est $C^1$.
+    \label{fLorenz}
+    \deriv{\Vec{u}}{t} = \Gamma(\Vec{u}), \quad
+    \Gamma : \Vec{u} = \colv{x\\y\\z} \in \R^3 \mapsto \colv{\sigma(y-x) \\ \rho x-y-xz \\ xy-\beta z}
+    \end{equation}
 
-\underline{Proposition:} Les solutions du systeme de Lorenz sont globales sur $\R_+$
+\section{Méthodes numériques}
 
-Demonstration:
-$\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution maximale de classe $C^1$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = ]0,T[,\ T \in ]0,+\infty]$. Montrons que $(I,(x,y,z))$ est globale. Dans \eqref{Lorenz} on s'intéresse à la somme de, $x$ fois première ligne avec $y$ fois la seconde ligne et $z$ fois la troisième ligne.
+
+\section{Existence et première propriété}
+
+Dans cette section nous allons faire une étude du systeme de Lorenz afin de determiner l'existence des solutions. Nous nous limiterons à l'étude des temps positifs ($t \ge 0$)
+
+\begin{prop}
+    Le systeme de Lorenz admet des solutions. De plus les solutions sont globales sur $\R_+$ et de classe $C^1$
+\end{prop}
+
+\begin{proof}
+    $\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution maximale de classe $C^1$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = [0,T[,\ T \in ]0,+\infty]$. Montrons que $(I,(x,y,z))$ est globale. Dans \eqref{Lorenz} on s'intéresse à la somme de, $x$ fois première ligne avec $y$ fois la seconde ligne et $z$ fois la troisième ligne.
 \[
     xx'+yy'+zz' = \sigma yx - \sigma x^2 + \rho xy - y^2 -xyz + xyz - \beta z^2\\
 \]  
@@ -75,16 +93,56 @@ D'après le lemme de Grönwall il vient:
 \[
     \forall t \in \R_+,\  \mathcal{N}(t) \le \mathcal{N}_0 e^{\eta t},\  \textrm{avec } \mathcal{N}_0 = \mathcal{N}(0)
 \]
-Donc la norme du vecteur solution n'explose pas en temps fini.\\
+Donc la norme du vecteur solution n'explose pas en temps fini.
+\end{proof}
 
-%solution C inf
-\underline{\textbf{Proposition:}} Les solution de \eqref{Lorenz} sont $C^\infty$\\
-Demonstration:
- Par définition de \eqref{Lorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi, ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$\\
+En ayant obtenue les résultats de la proposition on peut aisément en déduire que la propriété suivante.
 
-%pts stationnaires
-On cherche maintenant les points stationnaire de \eqref{Lorenz}.\\
-On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3} \equiv 0$ donc ($\R_+$,0) est une solution de l'equation differentielle.\\
+\begin{propt}
+    Les solutions du système de Lorenz \eqref{Lorenz} sont de classe $C^\infty$
+\end{propt}
+
+\begin{proof}
+    Par \eqref{fLorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi, ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$
+\end{proof}
+
+Cette propriété nous permet de dire que même si \eqref{Lorenz} est un système dit chaotique, on peut affirmer que les solutions sont régulière.
+
+\section{\'Etude des points stationnaires}
+Après une première etude sommaire du système de Lorenz \eqref{Lorenz}, on s'intéresse maintenant à l'étude des points stationnaires. Les points stationnaires sont des points tels que si le système passe par un de ces points il y reste indéfiniment.
+
+%vérifier la formulation de ce théoreme
+\begin{thm}
+    $u' = f(u)$ si il existe $v$ tel que $f(v)=0$ alors $v$ est un point stationnaire de l'équation differentielle.
+\end{thm}
+
+\subsection{Rappel des théorèmes}
+D'abord on rappelle les résultats sur lesquels on s'appuiras dans la suite. Ces théorèmes établissent des résultats de stabilité sur les point stationnaires en se basant sur l'étude spectrale de la differentielle.
+\begin{thm}
+    Soit $f\in C^2(U;E)$ sur un ouvert $U$ d'un espace de Banach $E$ et $v\in U$ tel que $f(v)=0$. Si le spectre de $\mathcal{D}_\Gamma(v)$ est inclus dans le demi-plan ouvert $\left\{\lambda; \Re(\lambda)<0\right\}$ alors $v$ est un point d'équilibre assymptotiquement stable pour l'équation $u'=f(u)$
+\end{thm}
+
+Ce résultat nous permet de conclure sur le comportement assymtotique des solutions ayant subit une faible perturbation à l'instant de départ (\cad les solution $(\R_+,u_1)$ telles que $u_1(t_{\text{init}})=u(t_{\text{init}})+\varepsilon,\ 0<\|\varepsilon\|\ll 1 $ ). On obtient ainsi $\lim_{t\to\infty}\|u-u_1\| = 0$.
+
+%resultat pour la stabilité simple
+
+\begin{thm}
+    Soit $f\in C^2(U;E)$ et $v\in U$ tel que $f(v)=0$. Si $\max\{\Re(\lambda); \lambda\in \mathrm{Sp}(\mathcal{D}_f(v))\}$ est atteint pour une valeur propre de $\mathcal{D}_f(v)$ de partie réelle strictement positive. Alors $v$ est un point d'équilibre instable pour l'équation $u'=f(u)$
+\end{thm}
+
+% commentaire sur le résultat
+
+\subsection{Détermination des équilibres}
+Dans un premier temps on regarde si notre système possèdes des équilibres et si oui lesquels.
+\begin{prop}
+    L'equation \eqref{Lorenz} possèdes 3 points d'équilibre qui sont:
+    \begin{align*}
+        0_{\R^3} &&   S_+ :=\colv{\sqrt{ \beta (\rho -1)} \\ \sqrt{\beta (\rho -1)}\\ \rho -1}  &&  S_- := \colv{-\sqrt{ \beta (\rho -1)} \\ - \sqrt{\beta (\rho -1)}\\ \rho -1}
+    \end{align*}
+\end{prop}
+
+\begin{proof}
+On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3}:= 0$ donc ($\R_+$,0) est une solution de l'equation differentielle.\\
 On resout alors $\Gamma(x,y,z)=0$ en supposant que $(x,y,z) \neq 0$, il vient:
 \[
 \left\{\begin{array}{rl} %O of Gamma
@@ -103,12 +161,12 @@ de $(L_1)$ on obtient que $x=y$. Dans $(L_2)$ et dans $(L_3)$ on remplace $y$ pa
     (L_2) \Rightarrow \rho x - x - xz = 0 \Rightarrow x (\rho -1 -z ) = 0 \\
     (L_3) \Rightarrow x^2 - \beta z = 0 \Rightarrow z = \frac{x^2}{\beta}
 \end{gather*}
-On obtient ainsi:
+On obtient ainsi un polynome de degrès 3 il y a donc au plus 3 équilibres:
 \begin{align*}
     (L_2) & \Rightarrow x (\rho - 1 - \frac{x^2}{\beta}) = 0 \text{, or }x \neq 0\\
         & \Rightarrow x^2 = \beta (1-\rho)\\
     \text{Si } \beta(1-\rho) \ge 0 & \Leftrightarrow \beta \ge 0,\rho\le 1 \text{ ou } \beta \le 0,\rho\ge 1\text{ alors:}\\
-    &\Rightarrow x = \sqrt{\beta(1-\beta)}
+    &\Rightarrow x = \pm \sqrt{\beta(1-\beta)}
 \end{align*}
 
 De ces trois équation on obtient que:
@@ -117,48 +175,21 @@ De ces trois équation on obtient que:
 \]
 
 On verifie aisément que cette relation est une \'equivalance, en ramplacant les valeurs obtenue de $x$,$y$ et $z$ dans $\Gamma(x,y,z)$
-\\
-\underline{Remarque:} Si $\rho = 1$ alors il n'y a qu'un seul équilibre
+\end{proof}
 
-On se propose d'étudier la stabilité des points stationnaires. Pour cela on s'intéresse à la linéarisé de \eqref{Lorenz}, donné par:
-\[
-\colv{x'\\y'\\z'} = \mathcal{D}_{\Gamma}(x_s,y_s,z_s)\colv{x\\y\\z}    
-\]
-avec $(x_s,y_s,z_s)$ les coordonnées des points stationnaire, $\mathcal{D}_{\Gamma}(x,y,z)$ la differentielle de $\Gamma$ donné par:
-\[
-\mathcal{D}_{\Gamma}(x,y,z) =
-\begin{pmatrix}
-    \sigma & \sigma & 0 \\ \rho - z & -1 & -x \\ y & x & - \beta
-\end{pmatrix}
-\]
-On étudie premièrement l'équilibre autour de $0_{\R^3}$:\\
-L'équation ainsi obtnue est:
-\begin{equation}
-    \colv{x'\\y'\\z'} =
-    \begin{pmatrix}
-        - \sigma & \sigma & 0 \\ \rho & -1 & 0 \\ 0 & 0 & - \beta
-    \end{pmatrix}
-    \colv{x \\ y \\ z}
-\end{equation}
-Autrement dit on obtient:
-\begin{equation}
-    \left\{\begin{array}{lr}
-        x' = \sigma (y-x) \\
-        y' = \rho x - y \\
-        z' = \beta z
-    \end{array}\right.
-\end{equation}
+\begin{example}[Remarque]
+    Si $\rho=1$ il n'y a qu'un seul équilibre.
+\end{example}
 
+\subsection{Caractérisation de l'équilibre $0_{\R^3}$}
 
-%caractérisation de l'équilibre 0
-On se propose de caractériser l'équilibre $0_{\R^3}$.\\
-\textit{Rappel:} Théoreme:\\
-Soient $f\in C^2(U;E)$ et $v\in U$ tel que $f(v)=0$. Si $\max\{\Re(\lambda); \lambda\in \mathrm{Sp}(\mathcal{D}_f(v))\}$ est atteint pour une valeur propre de $\mathcal{D}_f(v)$ de partie réelle strictement positive. Alors $v$ est un point d'équilibre instable pour l'équation $u'=f(u)$ \\
-Calculons le polynome caractéristique de la differentielle de $\Gamma$ en $0_{\R^3}$, on notera se polynome $\chi$.
+Calculons le polynome caractéristique de la differentielle de $\Gamma$ en $0_{\R^3}$, on notera ce polynome $\chi$.
 \[
     \chi (\lambda) = \det\big(\lambda\id - \mathcal{D}_{\Gamma}(0,0,0)\big) = (\lambda - \beta)(\lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma)
 \]
-Remarque: $\beta$ est toujours racine de $\chi$\\
+\begin{example}[Remarque]
+    $\beta$ est toujours racine de $\chi$
+\end{example}
 Posons $P:\lambda \in \R \mapsto \lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma,\text{ donc }\chi(\lambda)=(\lambda-\beta)P(\lambda)$, on calcule le deteterminant de $P$:
 \[
   \Delta = (\sigma+1)^2 - 4(\sigma-\sigma\rho)) = (\sigma-1)^2 +4\sigma\rho
@@ -187,7 +218,8 @@ Dans ce cas on a $\Delta > 0$, on retrouve la même expression des racines que p
 Comme dans le cas précédent on trouve $\Delta>0$ avce cette fois $\lambda_+ < 0$ et $\lambda_- >0$. On le retrouve en majorant $2\lambda_+$ et $2\lambda_-$ par $\rho=0$, on majore ainsi $\lambda_+$ et minore $\lambda
 _-$. Donc $0_{\R^3}$ est un équilbre instable pour \eqref{Lorenz}.
 
+\subsection{Caractérisation de $S_\pm$}
+\section{Annexes}
 
-\underline{Remarque:} Les cas 1,3,4,5 sont des point d'équilibre hyperbolique de \eqref{Lorenz} en effet, $\mathrm{Sp}(A)\cap \mathrm{Vect}(i)= \emptyset$
 
 \end{document}

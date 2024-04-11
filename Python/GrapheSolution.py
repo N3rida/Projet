@@ -1,7 +1,10 @@
 import numpy as np 
 from matplotlib import pyplot as plt 
+plt.rcParams.update({
+    'text.usetex' : True
+})
 
-sigma,rho,beta = 10,28,8/3
+sigma,rho,beta = 10,28,2.66
 
 def Lorenz(t,X):
     Xout = np.zeros(3)
@@ -30,7 +33,24 @@ for i in range(1,nbInterv):
     Yout = RK4(i*h,h,Y[i-1],Lorenz)
     Y[i] = Yout
 
-ax = plt.figure().add_subplot(projection='3d')
-ax.plot3D(Y[:,0],Y[:,1],Y[:,2], color = 'red') #Graphe de la solution aprochée
-ax.plot(6,4,2,color = 'grey' , marker = 'o') #pts de départ
+#context
+plt.style.use('ggplot')
+fig = plt.figure(layout = 'none')
+ax = fig.add_subplot(projection='3d')
+ax.grid(True)
+#camera
+ax.azim = -50
+ax.elev = 10
+#legend 
+ax.set_xlabel(r'Axe $x$')
+ax.set_ylabel(r'Axe $y$')
+ax.set_zlabel(r'Axe $z$')
+StrTitle = f"Trajectoire de la solution de condition initiale $x_0=(6,4,2)$  \n avec $(\\sigma,\\rho,\\beta)=({sigma},{rho},{beta})$"
+ax.set_title(StrTitle, wrap = True)
+#solution
+ax.plot3D(Y[:,0],Y[:,1],Y[:,2], color = 'blue') #Graphe de la solution aprochée
+
+#condition initiales
+ax.plot(6,4,2,color = 'grey' , marker = 'o') #pts de départ de la sol° 
+ax.text(8,4,0,r'$(6,4,2)$', color = 'grey')
 plt.show()
