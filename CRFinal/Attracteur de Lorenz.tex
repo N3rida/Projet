@@ -3,10 +3,18 @@
 \usepackage[T1]{fontenc}
 
 \usepackage{graphicx} % Required for inserting images
+\graphicspath{{C:/Users/chabe/Documents/L3/PROJET/Projet/CRFinal/ressources/}}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{tikz}
+\usepackage{fancyhdr}
 \usepackage{thmbox}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{Attracteur de Lorenz - \thesection}
+\fancyfoot[C]{\thepage}
 
 \title{Système de Lorenz}
 
@@ -32,8 +40,10 @@
 \newtheorem[L]{cor}{Corollaire}
 
 \begin{document}
-\maketitle
-
+\begin{titlepage}
+    \vfil
+    \includegraphics{LorenzTransparent}
+\end{titlepage}
 \section*{Introduction}
 
 \begin{equation}
@@ -117,8 +127,10 @@ Après une première etude sommaire du système de Lorenz \eqref{Lorenz}, on s'i
 \end{thm}
 
 \subsection{Rappel des théorèmes}
+\label{sec:Rappel-des-théorèmes}
 D'abord on rappelle les résultats sur lesquels on s'appuiras dans la suite. Ces théorèmes établissent des résultats de stabilité sur les point stationnaires en se basant sur l'étude spectrale de la differentielle.
 \begin{thm}
+    \label{thm:eq-ass-stable}
     Soit $f\in C^2(U;E)$ sur un ouvert $U$ d'un espace de Banach $E$ et $v\in U$ tel que $f(v)=0$. Si le spectre de $\mathcal{D}_\Gamma(v)$ est inclus dans le demi-plan ouvert $\left\{\lambda; \Re(\lambda)<0\right\}$ alors $v$ est un point d'équilibre assymptotiquement stable pour l'équation $u'=f(u)$
 \end{thm}
 
@@ -127,6 +139,7 @@ Ce résultat nous permet de conclure sur le comportement assymtotique des soluti
 %resultat pour la stabilité simple
 
 \begin{thm}
+    \label{thm:eq-instable}
     Soit $f\in C^2(U;E)$ et $v\in U$ tel que $f(v)=0$. Si $\max\{\Re(\lambda); \lambda\in \mathrm{Sp}(\mathcal{D}_f(v))\}$ est atteint pour une valeur propre de $\mathcal{D}_f(v)$ de partie réelle strictement positive. Alors $v$ est un point d'équilibre instable pour l'équation $u'=f(u)$
 \end{thm}
 
@@ -182,22 +195,28 @@ On verifie aisément que cette relation est une \'equivalance, en ramplacant les
 \end{example}
 
 \subsection{Caractérisation de l'équilibre $0_{\R^3}$}
-
-Calculons le polynome caractéristique de la differentielle de $\Gamma$ en $0_{\R^3}$, on notera ce polynome $\chi$.
+Afin d'utiliser les outils introduit dans la partie \ref{sec:Rappel-des-théorèmes}, on calcule le polynome caractéristique de la differentielle en $0$ (noté $\chi$) donné par le calcul suivant.
 \[
     \chi (\lambda) = \det\big(\lambda\id - \mathcal{D}_{\Gamma}(0,0,0)\big) = (\lambda - \beta)(\lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma)
 \]
 \begin{example}[Remarque]
     $\beta$ est toujours racine de $\chi$
 \end{example}
-Posons $P:\lambda \in \R \mapsto \lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma,\text{ donc }\chi(\lambda)=(\lambda-\beta)P(\lambda)$, on calcule le deteterminant de $P$:
+On remarque que $\chi$ est un polynome de degrè 3 et d'après la remarque précédente on a que $\chi(\lambda) = (\lambda - \beta)P(\lambda)$, avec $P:\lambda \in \R \mapsto \lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma$. Ainsi les pour étudier $\chi$, on calcule le deteterminant de $P$:
 \[
   \Delta = (\sigma+1)^2 - 4(\sigma-\sigma\rho)) = (\sigma-1)^2 +4\sigma\rho
 \]
-On obtient alors un autre polynome. On étudie son signe et on différencie les cas suivant:
 
-\underline{Cas 1: Si $(\rho,\sigma)=(0,1)$:}\\
-Alors $\chi_A(x) = (\lambda-\beta)(\lambda+1)^2$, donc d'après le théoreme, si $\beta$ est strictement positif $0$ est un point d'équilibre instable pour \eqref{Lorenz}
+\begin{prop}[Cas 1:]
+Si $(\rho,\sigma)=(0,1)$, alors: 
+\begin{enumerate}
+    \item Si $\beta > 0$ alors 0 équilibre instable pour \eqref{Lorenz}
+    \item Si $\beta < 0$ alors 0 équilbre asymptotiquement stable pour \eqref{Lorenz}
+\end{enumerate}
+\end{prop}
+\begin{proof}
+    Dans ce cas on a, $\chi(x) = (\lambda-\beta)(\lambda+1)^2$. Donc $\mathrm{Sp} (\mathcal{D}_\Gamma(0,0,0))= \{ \beta, -1 \}$, on différencie alors 2 cas. Si $\beta$ est strictement positif alors d'après \ref{thm:eq-instable} l'équilibre est instable. Si $\beta$ est strictement négatif d'après \ref{thm:eq-ass-stable} l'équilibre est assymptotiquement stable
+\end{proof}
 
 \underline{Cas 2: Si $(\rho,\sigma)=(1,-1)$:}\\
 Alors $\chi_A(\lambda) = (\lambda-\beta)\lambda^2$, donc d'après le théoreme, si $\beta$ est strictement positif (resp. strictement négatif) $0_{\R^3}$ est un point d'équilibre instable (resp. asymptotiquement stable) pour \eqref{Lorenz}
