@@ -34,15 +34,15 @@
 
 \newcommand{\cad}{c'est-\`a-dire }
 
-\newtheorem[M]{prop}{Proposition}[section]
+\newtheorem[M , nocut]{prop}{Proposition}[section]
 \newtheorem[M]{propt}{Propriété}[section]
-\newtheorem[L]{thm}{Théoreme}
+\newtheorem[L , nocut]{thm}{Théoreme}
 \newtheorem[L]{cor}{Corollaire}
 
 \begin{document}
 \begin{titlepage}
     \vfil
-    \includegraphics{LorenzTransparent}
+    %\includegraphics{LorenzTransparent}
 \end{titlepage}
 \section*{Introduction}
 
@@ -95,7 +95,7 @@ Posons $\mathcal{N}: (t) \in \R^3 \mapsto x(t)^2 + y(t)^2 + z(t)^2$ ($\mathcal{N
 \end{align*}
 \footnotetext{$\forall p,q \in \mathbb{N}\: \text{tels que} \frac{1}{p}+\frac{1}{q}=1 \Rightarrow \forall a,b \in \R \: ab \le \frac{a^p}{p}+\frac{b^q}{q}$}
 
-Posons $ \eta = \sigma + \rho - 2 \min (1,\sigma,\beta))$. On a alors: 
+Posons $ \eta = \sigma + \rho - 2 \min (1,\sigma,\beta)$. On a alors: 
 \[
     \forall t \in \R_+, \  \deriv{}{t}\mathcal{N}(t) \le \eta\  \mathcal{N}(t)
 \]
@@ -123,12 +123,16 @@ Après une première etude sommaire du système de Lorenz \eqref{Lorenz}, on s'i
 
 %vérifier la formulation de ce théoreme
 \begin{thm}
-    $u' = f(u)$ si il existe $v$ tel que $f(v)=0$ alors $v$ est un point stationnaire de l'équation differentielle.
+    Soit l'équation differentielle bien définie,
+    \begin{equation*}
+        u'=f(u)
+    \end{equation*}
+    Si il existe $v$ tel que $f(v)=0$ alors $v$ est un point stationnaire de l'équation differentielle.
 \end{thm}
 
 \subsection{Rappel des théorèmes}
 \label{sec:Rappel-des-théorèmes}
-D'abord on rappelle les résultats sur lesquels on s'appuiras dans la suite. Ces théorèmes établissent des résultats de stabilité sur les point stationnaires en se basant sur l'étude spectrale de la differentielle.
+D'abord on rappelle les résultats sur lesquels on s'appuiras dans la suite. Ces théorèmes établissent des résultats de stabilité sur les point stationnaires en se basant sur l'étude spectrale de la différentielle.
 \begin{thm}
     \label{thm:eq-ass-stable}
     Soit $f\in C^2(U;E)$ sur un ouvert $U$ d'un espace de Banach $E$ et $v\in U$ tel que $f(v)=0$. Si le spectre de $\mathcal{D}_\Gamma(v)$ est inclus dans le demi-plan ouvert $\left\{\lambda; \Re(\lambda)<0\right\}$ alors $v$ est un point d'équilibre assymptotiquement stable pour l'équation $u'=f(u)$
@@ -136,7 +140,7 @@ D'abord on rappelle les résultats sur lesquels on s'appuiras dans la suite. Ces
 
 Ce résultat nous permet de conclure sur le comportement assymtotique des solutions ayant subit une faible perturbation à l'instant de départ (\cad les solution $(\R_+,u_1)$ telles que $u_1(t_{\text{init}})=u(t_{\text{init}})+\varepsilon,\ 0<\|\varepsilon\|\ll 1 $ ). On obtient ainsi $\lim_{t\to\infty}\|u-u_1\| = 0$.
 
-%resultat pour la stabilité simple
+%resultat pour la stabilité simple ?
 
 \begin{thm}
     \label{thm:eq-instable}
@@ -204,39 +208,119 @@ Afin d'utiliser les outils introduit dans la partie \ref{sec:Rappel-des-théorè
 \end{example}
 On remarque que $\chi$ est un polynome de degrè 3 et d'après la remarque précédente on a que $\chi(\lambda) = (\lambda - \beta)P(\lambda)$, avec $P:\lambda \in \R \mapsto \lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma$. Ainsi les pour étudier $\chi$, on calcule le deteterminant de $P$:
 \[
-  \Delta = (\sigma+1)^2 - 4(\sigma-\sigma\rho)) = (\sigma-1)^2 +4\sigma\rho
+  \Delta = (\sigma+1)^2 - 4(\sigma-\sigma\rho) = (\sigma-1)^2 +4\sigma\rho
 \]
 
-\begin{prop}[Cas 1:]
-Si $(\rho,\sigma)=(0,1)$, alors: 
+Dans la suite on vas dissocier les cas suivant:
 \begin{enumerate}
-    \item Si $\beta > 0$ alors 0 équilibre instable pour \eqref{Lorenz}
-    \item Si $\beta < 0$ alors 0 équilbre asymptotiquement stable pour \eqref{Lorenz}
+    \item Cas $\Delta > 0$:
+    \item Cas $\Delta = 0$:
+    \item Cas $\Delta < 0$:
 \end{enumerate}
+
+\subsubsection*{Cas $\Delta > 0$}
+Premièrement on détermine les conditions pour que $\Delta$ soit strictement positif.
+\begin{prop}
+    $\Delta$ est strictement positif pour l'ensemble des paramètre suivant:
+    \[
+     \left\{(\sigma,\rho)\in \R ^2 : 1-2 \rho - \sqrt{\frac{(4\rho-2)^2}{4} -1 } > \sigma\ et \ \sigma > 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1  } \right\}    
+    \]
+\end{prop}
+\begin{example}
+    Dans le cas $\Delta > 0$, on a $\rho \in ]0,1[$
+\end{example}
+\begin{proof}
+    $\Delta = \sigma^2 + \sigma(4\rho-2) + 1$ est un polynome de la variable $\sigma$. On note le deteterminant de $\Delta$ selon la variable $\sigma$, $\delta$. $\Delta$ est convexe par rapport à la variable $\sigma$ donc pour que $\Delta$ soit strictement positif il faut que $\delta$ soit strictement négatif. On cherche alors $\rho$ tel que \[ \delta<0\ \Leftrightarrow\ 16\rho^2 - 16\rho <0\ \Leftrightarrow\ \rho(\rho-1)<0\ \Leftrightarrow \rho \in ]0,1[ \]
+    %finir demo !
+\end{proof}
+On s'intéresse a la stabilité des points stationnaires dans le cas où $\Delta>0$
+%A faire ...
+
+\subsubsection*{Cas $\Delta = 0$}
+On s'intéresse maintenant aux cas tels que $\Delta=0$
+
+\begin{prop} 
+    \label{prop:Deg0}
+    $\Delta$ est nul si et seulemment si on a la paramétrisation suivante,
+    \[
+        \left\{(\sigma,\rho)\in \R ^2 :\sigma = 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 }\ et\ \sigma = 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 } \right\}  
+    \]
+\end{prop}
+
+\begin{example}[Remarque]
+    Cette paramétrisation implique que $\rho \in \R \setminus ]0,1[$ 
+\end{example}
+
+\begin{proof}
+    A nouveaux on considère $\Delta$ comme un polynome de la variable $\sigma$. Pour que $\Delta$ ait des racines il faut que $\delta$ soit positif ou nul.
+    \[
+    \delta \ge 0 \Leftrightarrow \rho(\rho-1) \ge 0 \Leftrightarrow \rho \in \R \setminus ]0,1[
+    \] Maintenant on calcule les racines de $\Delta$.
+    \begin{align*}
+        \sigma &= \frac{2-4\rho + \sqrt{ (4\rho-2)^2 -4 }}{2} = 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 }\\
+        \sigma &= \frac{2-4\rho - \sqrt{ (4\rho-2)^2 -4 }}{2} = 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }
+    \end{align*}
+    On obtient ainsi la paramétrisation voulue.
+\end{proof}
+Maintenant on s'intéresse à la stabilité de l'équilibre pour le cas $\Delta=0$.
+\begin{prop}\label{prop:eqDeg0}
+    Dans le cas $\Delta=0$:
+    Si $\beta >0$ l'équilbre est instable si $\beta<0$ alors on a:
+    \begin{itemize}
+        \item Si $\sigma < -1 , \rho > 1$ alors $0_{\R^3}$ est un equilibre instable pour \eqref{Lorenz}
+        \item Si $\sigma > -1 , \rho < 1$ alors $0_{\R^3}$ est un equilibre assymptotiquement stable pour \eqref{Lorenz}
+    \end{itemize}
 \end{prop}
 \begin{proof}
-    Dans ce cas on a, $\chi(x) = (\lambda-\beta)(\lambda+1)^2$. Donc $\mathrm{Sp} (\mathcal{D}_\Gamma(0,0,0))= \{ \beta, -1 \}$, on différencie alors 2 cas. Si $\beta$ est strictement positif alors d'après \ref{thm:eq-instable} l'équilibre est instable. Si $\beta$ est strictement négatif d'après \ref{thm:eq-ass-stable} l'équilibre est assymptotiquement stable
+    Comme $\beta$ est toujours racine si $\beta >0$ alors $\max (\mathrm{Sp}(\mathcal{D}_\Gamma)) \ge \beta > 0$ donc d'après le theoreme \ref{thm:eq-instable} $0_{\R^3}$ est un équilbre instable pour \eqref{Lorenz}\\
+    Si $\beta < 0$ alors dans le cas de $\Delta = 0, \mathrm{Sp}(\mathcal{D}_\Gamma) = \{\beta, -\frac{\sigma+1}{2}\}$, on cherche alors les conditions sur les paramètre $\sigma$ et $\rho$ telles que le système soit instable ou assymptotiquement stable.
+    On s'intéresse au cas instable et on inversera le sens des inégalités pour avoir le cas assymptotiquement stable. 
+    \[
+        -\frac{\sigma+1}{2} >0 \Leftrightarrow \sigma < -1   
+    \]% modifier pour integrer la ref a la parametrisation
+    Pour "inserer ref param" on obtient que $-1 > 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 }$ n'as pas de solutions.
+    Pour "inserer ref param" cherche $\rho$ tel que:
+    \[
+        1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 } < -1 \Rightarrow \frac{(4\rho-2)^2}{4} -1 > (2\rho-2)^2 \Leftrightarrow \rho > 1 
+    \]En faisant les caluls avec l'inégalités inverse on retrouve le cas assymptotiquement stable.
 \end{proof}
 
-\underline{Cas 2: Si $(\rho,\sigma)=(1,-1)$:}\\
-Alors $\chi_A(\lambda) = (\lambda-\beta)\lambda^2$, donc d'après le théoreme, si $\beta$ est strictement positif (resp. strictement négatif) $0_{\R^3}$ est un point d'équilibre instable (resp. asymptotiquement stable) pour \eqref{Lorenz}
+\subsubsection*{Cas $\Delta < 0$}
+On determine les cas tels que $\Delta<0$
+\begin{prop}
+    $\Delta$ est strictement négatif pour l'ensemble des paramètre suivant:
+    \[
+     \left\{(\sigma,\rho)\in \R ^2 : 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }< \sigma < 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 } \right\}    
+    \]
+\end{prop}
+\begin{example}[Remarque]
+    Dans cet ensemble on a que: $\rho \in \R \setminus [0,1]$ 
+\end{example}
 
-
-\underline{Cas 3: Si $\rho \in ]0,1[, \sigma \in \mathbb{R}$:}\\
-$\Delta> (\sigma-1)^2 >0$ donc $P$ a deux racines réelles.
-que l'on note: 
-\[
-    \lambda_\pm = \frac{-(\sigma-1)\pm \sqrt{(\sigma-1)^2 + 4\sigma\rho}}{2}
-\]
-Regardons le signe des racines. $\lambda_+ < -(\sigma-1)+ \sqrt{(\sigma+1)^2} \le 0 $, de même pour $\lambda_-$, on a, $\lambda_- < - \sigma +1- |\sigma - 1| \le 0$. De plus si $\beta$ est strictement négatif, toutes les racines sont strictement négative donc $0_{\R^3}$ est un point d'équilibre asymptotiquement stable pour \eqref{Lorenz}. Si $\beta > 0$, $0_{\R^3}$ est un point d'équilbre instable.
-
-\underline{Cas 4: Si $\rho > 1$ et $\sigma \ge 0 $: }\\
-Dans ce cas on a $\Delta > 0$, on retrouve la même expression des racines que précédemment $\lambda_\pm$. On trouve que $2\lambda_+ > 1-\sigma+|\sigma+1| \ge 0$, donc $\lambda_+ > 0$, pour $\lambda_-$ on a, $2\lambda_- < 1-\sigma-|\sigma+1| \le 0 $, donc $\lambda_- < 0$, dans ce cas $0_{\R^3}$ est un équilibre instable pour \eqref{Lorenz}.
-
-\underline{Cas 5: Si $\rho<0$ et $\sigma\le 0$:}\\
-Comme dans le cas précédent on trouve $\Delta>0$ avce cette fois $\lambda_+ < 0$ et $\lambda_- >0$. On le retrouve en majorant $2\lambda_+$ et $2\lambda_-$ par $\rho=0$, on majore ainsi $\lambda_+$ et minore $\lambda
-_-$. Donc $0_{\R^3}$ est un équilbre instable pour \eqref{Lorenz}.
-
+\begin{proof}
+    Pour que $\Delta$ ait des racines il faut que $\delta$ soit strictement positif.
+    \[
+    \delta > 0 \Leftrightarrow \rho(\rho-1) > 0 \Leftrightarrow \rho \in \R \setminus [0,1]
+    \]Par convexité de $\Delta$ on a que $\Delta$ est négatif entre ces racines, il vient alors:
+    \[
+        1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 } < \sigma < 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }
+    \]Donc l'ensemble des $\rho,\sigma$ qui verifie cette inégalité sont alors des paramètres tels que $\Delta$ est négatif.
+\end{proof}
+On determine les cas pour lesquels l'equilibre est instable ou assymptotiquement stable.
+\begin{prop}
+    Dans le cas $\Delta<0$:
+    Si $\beta >0$ l'équilbre est instable si $\beta<0$ alors on a:
+    \begin{itemize}
+        \item Si $\sigma < -1 , \rho > 1$ alors $0_{\R^3}$ est un equilibre instable pour \eqref{Lorenz}
+        \item Si $\sigma > -1 , \rho < 1$ alors $0_{\R^3}$ est un equilibre assymptotiquement stable pour \eqref{Lorenz}
+    \end{itemize}
+\end{prop}
+\begin{proof}
+    Pour la différenciation du cas de $\beta$ cf. la démonstration de \ref{prop:eqDeg0}. Dans ce cas on a:
+    \[
+        \mathrm{Sp}(\mathcal{D}_\Gamma) = \left\{\beta, \omega := \frac{-(\sigma+1)+ i \sqrt{-\Delta}}{2}, \bar{\omega} := \frac{-(\sigma+1)- i \sqrt{-\Delta}}{2}\right\}
+    \]Pour étudier la stabilité on s'intéresse à la partie réelle de $\omega$ et $\bar{\omega}$. Or $\Re (\omega) = \Re (\bar{\omega}) = -\frac{\sigma+1}{2}$
+\end{proof}
 \subsection{Caractérisation de $S_\pm$}
 \section{Annexes}
 
