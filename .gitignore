@@ -4,6 +4,7 @@ main.fls
 main.log
 main.synctex.gz
 pdflatex11144.fls
+pdflatex14360.fls
 \Python\IMG
 __pycache__
 test.py
@@ -13,3 +14,8 @@ Attracteur de Lorenz.fdb_latexmk
 Attracteur de Lorenz.fls
 Attracteur de Lorenz.log
 Attracteur de Lorenz.synctex.gz
+Attracteur de Lorenz.bbl
+Attracteur de Lorenz.bcf
+Attracteur de Lorenz.blg
+Attracteur de Lorenz.toc
+Attracteur de Lorenz.run.xml

@@ -7,10 +7,17 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{fancyhdr}
+\usepackage{csquotes}
+\usepackage{biblatex}
+\addbibresource{Attracteur de Lorenz.bib}
+
 \usepackage{thmbox}
+
 \usepackage{tikz}
 \usepackage[firstpage = True]{background}
 \usepackage{wrapfig}
+
+
 
 \pagestyle{fancy}
 \fancyhead{}
@@ -64,8 +71,18 @@
         Second semestre - Année 2023-2024
     \end{center}
 \end{titlepage}
-\section*{Introduction}
 
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+\section*{Introduction}
+\thispagestyle{empty}
+\setcounter{page}{1}
+\begin{quotation}
+    Does a flap of a butterfly's wings in Brazil set off a tornado in Texas?
+\end{quotation}
+C'est le titre de l'article que Edward N. Lorenz publie en 1972 \cite{lorenz_does_1972}, dans lesquels il fais la synthèse de ce que l'on connait sous le nom de la théorie du chaos. La question peut être traduite par "Es-ce qu'un battement d'ailes de papillon peut entrainer une tornade au Brésil ?". En effet lors de l'étude de certains systèmes une faible variation peut entrainer des changements considérable dans les états ultérieurs du système. Tout au long de sa vie Lorenz ce seras intéressé au systèmes chaotiques essentiellement appliqué a son domaine de recherche : la météorologie. Dès 1963 il propose un modèle simplifié pour essayer de décrire la méteo \cite{lorenz1963}. Cependant les simplifications étant trop restrictives il est assez rare d'observer les comportement décris par ces équations dans la nature. Nous nous interresseront uniquement à l'étude mathématique de ce système. Ce système est appellé l'attracteur de Lorenz (aussi appellé attracteur étrange ou système de Lorenz).
 \begin{equation}
     \label{Lorenz}
     \left\{
@@ -81,6 +98,8 @@
         (L_3)
     \end{array}
 \end{equation}
+(\textit{avec $\sigma,\rho,\beta$ des paramètres}).
+A travers cette études nous allons présenter certaines caractéristique chaotiques du système en modélisant les résultats théorie avec des applications numérique, nous pourront notament observer les courbes qui prennent la forme d'ailes de papillon qui donneront leur nom a l'effet eponyme.
    
     \newpage
 \section{Méthodes numériques}
@@ -219,19 +238,18 @@ D'abord on rappelle les résultats sur lesquels on s'appuiras dans la suite. Ces
 
 Ce résultat nous permet de conclure sur le comportement assymtotique des solutions ayant subit une faible perturbation à l'instant de départ (\cad les solution $(\R_+,u_1)$ telles que $u_1(t_{\text{init}})=u(t_{\text{init}})+\varepsilon,\ 0<\|\varepsilon\|\ll 1 $ ). On obtient ainsi $\lim_{t\to\infty}\|u-u_1\| = 0$.
 
-%resultat pour la stabilité simple ?
-
 \begin{thm}
     \label{thm:eq-instable}
     Soit $f\in C^2(U;E)$ et $v\in U$ tel que $f(v)=0$. Si $\max\{\Re(\lambda); \lambda\in \mathrm{Sp}(\mathcal{D}_f(v))\}$ est atteint pour une valeur propre de $\mathcal{D}_f(v)$ de partie réelle strictement positive. Alors $v$ est un point d'équilibre instable pour l'équation $u'=f(u)$
 \end{thm}
 
 % commentaire sur le résultat
+Ces théorèmes nous donnent des résultats seulemment pour des valeurs propre toute strictement négative ou au moins une strictement positive. Cependant ces théorèmes ne nous permettent pas de conclure sur le cas où $0$ est valeur propre de la différentielle. Aussi il n'existe pas de résultats pour conclure sur la stabilité simple en étudiant le spectre de la différentielle.
 
 \subsection{Détermination des équilibres}
 Dans un premier temps on regarde si notre système possèdes des équilibres et si oui lesquels.
 \begin{prop}
-    SI $\rho>1$, l'equation \eqref{Lorenz} possèdes 3 points d'équilibre qui sont:
+    Si $\beta(1-\rho) \ge 0$, l'equation \eqref{Lorenz} possèdes 3 points d'équilibre qui sont:
     \begin{align*}
         0_{\R^3} &&   S_+ :=\colv{\sqrt{ \beta (\rho -1)} \\ \sqrt{\beta (\rho -1)}\\ \rho -1}  &&  S_- := \colv{-\sqrt{ \beta (\rho -1)} \\ - \sqrt{\beta (\rho -1)}\\ \rho -1}
     \end{align*}
@@ -357,7 +375,7 @@ A présent regardons l'équilibre $0_{\R^3}$ dans le cas $\Delta> 0$
 \end{proof}
 
 \begin{example} 
-    Dans cette configuration (figure \ref{fig:EqINS-Dsup0}) on retombe sur les paramètre qui permettent d'observer la trajectoire en forme d'ailes de papillon décrite par E. Lorenz lors de son article de 1963. La figure observé apparait pour les paramètres $(\sigma,\rho,\beta) = (10,28,8/3)$. D'après la proposition qui précède c'est donc un cas d'équilibre instable avec $\Delta>0$.
+    Dans cette configuration (figure \ref{fig:EqINS-Dsup0}) on retombe sur les paramètre qui permettent d'observer la trajectoire en forme d'ailes de papillon décrite par E. Lorenz lors de son article de 1963\cite{lorenz1963}. La figure observé apparait pour les paramètres $(\sigma,\rho,\beta) = (10,28,8/3)$. D'après la proposition qui précède c'est donc un cas d'équilibre instable avec $\Delta>0$.
 
     \begin{figure}[!ht]
         \centering
@@ -485,7 +503,22 @@ On determine les cas pour lesquels l'equilibre est instable ou assymptotiquement
     \end{figure}
 \end{example}
 \subsection{Caractérisation de $S_\pm$}
+
+Dans cette section nous allons nous intéresser au point d'équilibres définit précédemment $S_+$ et $S_-$. Nous ferons aussi quelques hypothèses simplificatrices, supposons $\sigma,\rho,\beta$ positifs et de plus $\sigma>\beta+1$.
+
+\begin{prop}
+    Sous les hypothèses de cette section et si $\rho > 1$ alors on definit $\rho^* = \sigma \frac{\sigma+\beta+3}{\sigma-\beta-1}$ tel que 
+    \begin{itemize}
+        \item si $\rho < \rho^* $ alors les équilibres $S_\pm$ sont assymptotiquement stables pour \eqref{Lorenz}
+        \item si $\rho > \rho^* $ alors les équilibres $S_\pm$ sont instables pour \eqref{Lorenz}
+    \end{itemize}
+\end{prop}
+
+\begin{example}[Remarque]
+    Si $\rho \in [0,1]$ les equilibres $S_\pm$ n'existent pas.
+\end{example}
 \section{Annexes}
 
-
+\nocite{*}
+\printbibliography[heading=bibintoc,title={Bibliographie}]
 \end{document}
