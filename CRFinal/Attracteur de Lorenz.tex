@@ -4,6 +4,7 @@
 
 \usepackage{graphicx} % Required for inserting images
 \graphicspath{{C:/Users/chabe/Documents/L3/PROJET/Projet/CRFinal/ressources/}}
+\usepackage[hyphens]{url}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{fancyhdr}
@@ -17,7 +18,7 @@
 \usepackage[firstpage = True]{background}
 \usepackage{wrapfig}
 
-
+\usepackage{array}
 
 \pagestyle{fancy}
 \fancyhead{}
@@ -48,9 +49,10 @@
 \newcommand{\setbackground}[1]{ \backgroundsetup{ scale=1, opacity=1, angle=0, contents={ \includegraphics[width=\paperwidth]{#1} } } }
 
 \newtheorem[M , nocut]{prop}{Proposition}[section]
-\newtheorem[M]{propt}{Propriété}[section]
+\newtheorem[S , nocut]{definition}{Définition}
+\newtheorem[S , nocut]{lemme}{Lemme}
 \newtheorem[L , nocut]{thm}{Théoreme}
-\newtheorem[L]{cor}{Corollaire}
+\newtheorem[L , nocut]{cor}{Corollaire}
 
 \begin{document}
 \begin{titlepage}
@@ -76,13 +78,13 @@
 \thispagestyle{empty}
 \newpage
 
-\section*{Introduction}
+\section{Introduction}
 \thispagestyle{empty}
 \setcounter{page}{1}
 \begin{quotation}
     Does a flap of a butterfly's wings in Brazil set off a tornado in Texas?
 \end{quotation}
-C'est le titre de l'article que Edward N. Lorenz publie en 1972 \cite{lorenz_does_1972}, dans lesquels il fais la synthèse de ce que l'on connait sous le nom de la théorie du chaos. La question peut être traduite par "Es-ce qu'un battement d'ailes de papillon peut entrainer une tornade au Brésil ?". En effet lors de l'étude de certains systèmes une faible variation peut entrainer des changements considérable dans les états ultérieurs du système. Tout au long de sa vie Lorenz ce seras intéressé au systèmes chaotiques essentiellement appliqué a son domaine de recherche : la météorologie. Dès 1963 il propose un modèle simplifié pour essayer de décrire la méteo \cite{lorenz1963}. Cependant les simplifications étant trop restrictives il est assez rare d'observer les comportement décris par ces équations dans la nature. Nous nous interresseront uniquement à l'étude mathématique de ce système. Ce système est appellé l'attracteur de Lorenz (aussi appellé attracteur étrange ou système de Lorenz).
+C'est le titre de l'article que Edward N. Lorenz publie en 1972 \cite{lorenz_does_1972}, dans lesquels il fais la synthèse de ce que l'on connait sous le nom de la théorie du chaos. La question peut être traduite par "Es-ce qu'un battement d'ailes de papillon au Brésil peut entrainer une tornade au Texas ?". En effet lors de l'étude de certains systèmes une faible variation peut entrainer des changements considérables dans les états ultérieurs du système. Tout au long de sa vie Lorenz se seras intéressé aux systèmes chaotiques essentiellement appliqué à son domaine de recherche : la météorologie. Dès 1963 il propose un modèle simplifié pour essayer de décrire la méteo \cite{lorenz_deterministic_1963}. Ce modèle à contribué à montrer la difficulté de prédire le climat à long terme. Dans l'approximation les paramètres $\sigma$ et $\rho$ correspondent au nombre de Prandtl et au nombre de Rayleigh, $x$ est un indicateur des mouvements de convection, $y$ est proportionnel à la variation de température dans les courants verticaux, et $z$ est un indicateur de la variation de température par rapport à un profil linéaire. Nous nous interresseront uniquement à l'étude mathématique de ce système. Ce système est appellé l'attracteur de Lorenz (aussi appellé attracteur étrange ou système de Lorenz).
 \begin{equation}
     \label{Lorenz}
     \left\{
@@ -99,74 +101,62 @@ C'est le titre de l'article que Edward N. Lorenz publie en 1972 \cite{lorenz_doe
     \end{array}
 \end{equation}
 (\textit{avec $\sigma,\rho,\beta$ des paramètres}).
-A travers cette études nous allons présenter certaines caractéristique chaotiques du système en modélisant les résultats théorie avec des applications numérique, nous pourront notament observer les courbes qui prennent la forme d'ailes de papillon qui donneront leur nom a l'effet eponyme.
+A travers cette études nous allons présenter certaines caractéristiques chaotiques du système en modélisant les résultats théorieques avec des applications numériques, nous pourront notamment observer les courbes qui prennent la forme d'ailes de papillon qui donneront leur nom a l'effet éponyme.
    
-    \newpage
-\section{Méthodes numériques}
+\newpage
+\section{Résultats fondamentaux pour les équations differentielles}
 
-Dans cette section nous allons introuire les méthodes numérique pour la résolution d'équation differentielle ordinaires (EDO). 
-\begin{example}[Problématique]
-    Pourquoi introduire des méthodes numériques pour la résolution des EDO ? 
+\subsection{Définitions}
+Dans ce chapitre on rappelle les résultats sur lesquels repose notre étude.
+\begin{definition}
+    On appele équation différentielle une équation de la forme
+    \[
+      u'(t) = f(t,u(t))  
+    \]où $f \in C^0(I\times U,\R^d)$ et $u \in C^1(I,U)$ avec $I$ un intervalle de $\R$ et $U \subset \R^d$ ouvert.
+\end{definition}
+\begin{example}[Remarque]
+    Si $f$ ne dépend pas directement de $t$, l'équation est dite autonome
 \end{example}
-Lorsque on étudie des équations differentielles la théorie nous permet sous certaines condition d'affirmer que la solution à un problème de Cauchy existe et est maximale. Cependant leur expressions explicite n'est pas garantie par exemple pour les EDO linéaire a coefficients constant il est systématiquement possible de trouver une solution analytique. Cependant lorsque on aborde les EDO non-linéaire, la plupart du temps nous ne sommes pas capable d'expliciter la solution analytique. C'est pourquoi on introduit les métodes numériques.\\
-Commençons par introduire la forme générale d'une équation différentielle\footnote{NB: Ici on présente les méthode numériques dans $\R^3$ on peut se ramener au cas d'un espace métrique plus général}.
-\[
-    u'(t) = f(t,u(t)),\quad \text{avec } f\in C^1(]a,b[ \times \R^3 ;\R^3)\text{ et }u : \R^3 \to \R^3
-\]
-Ici $u$ est la fonction à déterminer. Alors d'après le théoreme de Cauchy-Lipschitz il existe une solution maximale et $C^1$ au problème de Cauchy suivant sur l'intervalle $[t_I,t_F] \subset ]a,b[ $:
-\[
-    \left\{\begin{array}{l}
-        u'(t)=f(t,u)\\
-        u(t_I) = \nu
-    \end{array}\right.
-\]
-Maintenant que nous savons que la solution existe sur un intervalle de temps fermé , on cherche a approcher les valeurs de la solutions numériquement. Pour cela, on subdivise l'intervalle $[t_I,t_F]$ en $N$ sous intervalles et on calcule a l'aide d'un schéma numérique donné, la valeur approché de la solution pour tout les temps $t_n,\ 0\le n \le N$
+Lorsque l'on s'intéresse aux équations differentielles, on s'intéresse plus particulièrement au problème de Cauchy, que l'on peut définir comme suit.
+\begin{definition}
+    On appele problème de Cauchy, une équation différentielle munit d'une condition initiale, une information sur une valeurs de la fonction. On le présente sous la forme d'un système.
+    \[ \left\{ \begin{array}{l}
+        u'(t) = f(t,u(t)) \\ 
+        u(t=t_i) = u_i
+    \end{array}\right. \]
+    Avec $t_i\in I, u_i \in U$
+\end{definition}
 
-\subsection*{Première méthode numérique, le schéma d'Euler explicite}
-On introduit maintenant la première méthode de résolution.
-\begin{thm}
-    On note $(y_n)_{0 \le n \le N}$ la suite des approximation des valeurs de $u$ aux points $(t_n)_{0 \le n \le N}$. On appelle $h$ le pas de la méthode, et $h:= \frac{t_F-t_I}{N}$. Alors on a:
+\subsection{Outils pour les équations differentielles}
+
+Lorsque l'on souhaite étudier les équations differentielles le lemme de Grönwall est un outils essentiel, il notamment permet d'obtenir un contrôle sur le comportement des solutions.
+\begin{lemme}
+    \label{lemme:Gronwall}
+    Soit $u\in C^1([0,T],\R_+)$ et $a\in C([0,T],\R)$ telles que:
     \[
-        \left\{\begin{array}{rcl}
-        t_n &=& t_0 + n h \\
-        y_{n+1} &=& y_n + h f(t_n,y_n)\\
-        y_0 &=& \nu
-        \end{array}\right. \forall 0 \le n \le N
+      \forall t \in [0,T] u'(t)\le a(t)u(t)  
+    \]Alors $\forall t \ge t_0, t_0 \in [0,T]$, on a:
+    \[
+        u(t) \le u(t_0)e^{\int_{t_o}^t a(s)\ \mathrm{d}s}
     \]
-\end{thm}
-\begin{proof}
-    On intègre notre équation differentielle entre les instants $t_{n}$ et $t_{n+1}$, il vient:
-    \[
-      u(t_{n+1}) - u(t_n) = \int_{t_n}^{t_{n+1}} f(x,u(x))\ \mathrm{d}x
-    \]
-    On approche l'intégrale par la méthode des rectangles et on obtient:
-    \[
-        \int_{t_n}^{t_{n+1}} f(x,u(x))\ \mathrm{d}x = (t_{n+1}-y_n)f(t_n,u(t_n))
-    \]Or $\forall n , u(t_n) \approx y_n $, d'où:
-    \[
-        y_{n+1} = y_n + h f(t_n,y_n)
-    \]De plus $u(t_0) = \nu = y_0$. On obtient alors le schéma d'Euler explicite.
-\end{proof}
-Le schéma d'Euler est une méthode simple à utiliser et à implémenter. Cependant l'ordre de son érreur, en effet la métode de Euler est d'ordre 2 (\cad que l'érreur décroit comme une une droite de pente 2 a l'échelle logarithmique selon le nombre de subdivision de notre intervalle de départ). 
-\subsection*{Le schéma de Runge-Kutta}
-On s'interresse maintenant au schémas de Runge-Kutta ces schémas sont des méthodes dites multi-pas (\cad on fait une moyenne pondéré de l'approximation en plusieurs point). Plus particulièrement, la méthode de Runge-Kutta 4.
+\end{lemme}
+Cet énoncé du lemme n'est pas le plus complet qu'il est possible d'établir, il est cependant suffisant pour notre étude. On admet la démonstration que l'on peut retrouver dans le livre de Berthelin (p.18). 
+L'outil le plus important pour l'étude des équations différentielles ordinaire, qui nous permet de déterminer l'existence et l'unicité des solutions est le théorème suivant.
 \begin{thm}
-    On approche les valeurs de la solution de l'équation differentielle par la suite $(y_n)_{0\le n \le N}$ sur l'intervalle $[t_I,t_F]$, avec $N$ le nombre de subdivision de l'intervalle. Alors on a: 
-    \begin{align*}
-    k_1 &= h f(t_n, y_n) \\
-    k_2 &= h f\left(t_n + \frac{h}{2}, y_n + \frac{1}{2}k_1\right) \\
-    k_3 &= h f\left(t_n + \frac{h}{2}, y_n + \frac{1}{2}k_2\right) \\
-    k_4 &= h f(t_n + h, y_n + k_3)\\
-    y_{n+1} &= y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4) 
-    \end{align*}
-    La méthode de Runge-Kutta 4 est d'ordre 4.
+    \label{thm:CL}
+    Soient $f\in C(I\times U, \R^d)$ où $I$ est un intervalle de $\R$ et $U$ un ouvert de $\R^d$, et $(t_0,u_0)$. On suppose que $f$ est localement Lipschitzienne par rapport à la seconde variable sur $[0,T]$. Alors 
+    \begin{itemize}
+        \item il existe $T>0$ et $u\in C^1([0,T],U)$ est solution du problème de Cauchy
+        \item si $v$ est une autre solution, elle coïncide avec $u$ sur l'intervalle $[0,T]$
+    \end{itemize}
 \end{thm}
-On admet la démonstration de cette méthode. Aussi on la choisira pour illustrer les résultats sur le système de Lorenz. Les paramètre que nous utiliserons sont les suivants, $[t_I,t_F] = [0,30], h = 0.01 \text{ et }u(t=0)= (6,4,2)$
-\vfill
+Nous admettrons la démonstration de ce théorème dont on peut retrouver la démonstration dans le livre de F. Filbet (section 6.2.2) \cite{francis_filbet_analyse_2009}.
+Maintenant que nous avons introduit les principaux outils pour l'étude des équations différentielle, on peut à présent s'interresser au système de Lorenz \eqref{Lorenz}
 
-\section{Existence et première propriété}
+\newpage
+\section{Existence et premières propriétés}
 
-Dans cette section nous allons faire une étude du systeme de Lorenz afin de determiner l'existence des solutions. Nous nous limiterons à l'étude des temps positifs ($t \ge 0$). Pour cela on transforme l'équation \eqref{Lorenz} sous une forme plus pratique pour l'étude on a alors:
+Dans cette section nous allons faire une étude du systeme de Lorenz afin de déterminer l'existence des solutions. Nous nous limiterons à l'étude des temps positifs ($t \ge 0$). Pour cela on transforme l'équation \eqref{Lorenz} sous une forme plus pratique pour l'étude, on a:
 \begin{equation}
     \label{fLorenz}
     \deriv{\Vec{u}}{t} = \Gamma(\Vec{u}), \quad
@@ -174,11 +164,11 @@ Dans cette section nous allons faire une étude du systeme de Lorenz afin de det
     \end{equation}
 Commençons notre étude du système.
 \begin{prop}
-    Le systeme de Lorenz admet des solutions. De plus les solutions sont globales sur $\R_+$ et de classe $C^1$
+    Le système de Lorenz admet une unique solution sur $\R_+$ de classe $C^1$
 \end{prop}
 
 \begin{proof}
-    $\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théoreme de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution maximale de classe $C^1$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = [0,T[,\ T \in ]0,+\infty]$. Montrons que $(I,(x,y,z))$ est globale. Dans \eqref{Lorenz} on s'intéresse à la somme de, $x$ fois première ligne avec $y$ fois la seconde ligne et $z$ fois la troisième ligne.
+    Premièrement on applique le théorème de Cauchy-Lipschitz \ref{thm:CL} à \ref{fLorenz}. $\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théorème de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution de classe $C^1$ sur $[0,T]$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = [0,T[,\ T \in ]0,+\infty]$. Montrons que $T = +\infty$. Dans \eqref{Lorenz} on s'intéresse à la somme de, $x$ fois première ligne avec $y$ fois la seconde ligne et $z$ fois la troisième ligne.
 \[
     xx'+yy'+zz' = \sigma yx - \sigma x^2 + \rho xy - y^2 -xyz + xyz - \beta z^2\\
 \]  
@@ -193,7 +183,7 @@ Posons $\mathcal{N}: (t) \in \R^3 \mapsto x(t)^2 + y(t)^2 + z(t)^2$ ($\mathcal{N
 \end{align*}
 \footnotetext{$\forall p,q \in \mathbb{N}\: \text{tels que} \frac{1}{p}+\frac{1}{q}=1 \Rightarrow \forall a,b \in \R \: ab \le \frac{a^p}{p}+\frac{b^q}{q}$}
 
-Posons $ \eta = \sigma + \rho - 2 \min (1,\sigma,\beta)$. On a alors: 
+Posons $ \eta = \sigma + \rho + 2 \min (1,\sigma,\beta)$. On a alors: 
 \[
     \forall t \in \R_+, \  \deriv{}{t}\mathcal{N}(t) \le \eta\  \mathcal{N}(t)
 \]
@@ -204,60 +194,73 @@ D'après le lemme de Grönwall il vient:
 Donc la norme du vecteur solution n'explose pas en temps fini.
 \end{proof}
 
-En ayant obtenue les résultats de la proposition on peut aisément en déduire que la propriété suivante.
+En ayant obtenu les résultats de la proposition, on peut aisément en déduire la propriété suivante.
 
-\begin{propt}
+\begin{cor}
     Les solutions du système de Lorenz \eqref{Lorenz} sont de classe $C^\infty$
-\end{propt}
+\end{cor}
 
 \begin{proof}
     Par \eqref{fLorenz} on a que $(x',y',z') = \Gamma(x,y,z)$, or par composition $\Gamma(x,y,z)$ est $C^1$ donc $(x',y',z')$ l'est aussi, ainsi $(x,y,z)$ est $C^2$.De la même manière on obtient par récurence immédiate que $(x,y,z)$ est $C^\infty$
 \end{proof}
 
-Cette propriété nous permet de dire que même si \eqref{Lorenz} est un système dit chaotique, on peut affirmer que les solutions sont régulière.
+Cette propriété nous permet de dire que même si \eqref{Lorenz} est un système dit chaotique, on peut affirmer que les solutions sont régulières.
 
+\newpage
 \section{\'Etude des points stationnaires}
-Après une première etude sommaire du système de Lorenz \eqref{Lorenz}, on s'intéresse maintenant à l'étude des points stationnaires. Les points stationnaires sont des points tels que si le système passe par un de ces points il y reste indéfiniment.
 
-%vérifier la formulation de ce théoreme
-\begin{thm}
-    Soit l'équation differentielle bien définie,
-    \begin{equation*}
-        u'=f(u)
-    \end{equation*}
-    Si il existe $v$ tel que $f(v)=0$ alors $v$ est un point stationnaire de l'équation differentielle.
-\end{thm}
+Après une première étude du système de Lorenz \eqref{Lorenz}, on s'intéresse maintenant à la stabilité du système de Lorenz autour des points d'équilibre que l'on définit comme suit.
+
+\begin{definition}
+    Soit $f\in C(U,\R^d)$ avec $U$ ouvert de $\R^d$, $f$ définit une équation différentielle autonome.
+    On appele point stationnaire ou d'équilibre de l'équation differentielle, tout point $v \in U$ tel que:
+    $$ f(v) = 0$$ 
+\end{definition}
 
 \subsection{Rappel des théorèmes}
 \label{sec:Rappel-des-théorèmes}
-D'abord on rappelle les résultats sur lesquels on s'appuiras dans la suite. Ces théorèmes établissent des résultats de stabilité sur les point stationnaires en se basant sur l'étude spectrale de la différentielle.
+Avant de s'intéresser aux théorèmes qui nous donnent les résultats de stabilité, on rappelle les définitions de la différentielle et du spectre qui nous serviront par la suite.
+\begin{definition}
+    Soient $f:U\subset \R^d \to \R^d$ et $a\in U$. On dit que $f$ est différentiable en $a$ s'il existe une application linéaire $L:\R^d\to\R^d$ telle que:
+    $$f(a+h) = f(a) + L(h) + \|h\|\varepsilon(h)\quad \text{avec }\varepsilon(h)\xrightarrow[h\to 0]{}0$$ 
+    L'application linéaire $L$ est alors appelée la differentielle de $f$ en $a$ on la note $\mathcal{D}_f(a)$
+\end{definition}
+\begin{example}[Remarque]
+    Dans la suite on appellera différentielle, l'application linéaire et la matrice associé à l'application linéaire dans la base cannonique sans distinction.
+\end{example}
+\begin{definition}
+    On définit le spectre d'une application linéaire $f$ sur un $\mathbb{K}-$espace vectoriel (avec $\mathbb{K}$= $\R$ ou $\mathbb{C}$).Comme l'ensemble des valeurs propres de $f$. On le note $\mathrm{Sp}(f)$
+\end{definition}
+
+Maintenant on rappelle les résultats sur lesquels on s'appuira dans la suite. Ces théorèmes établissent des résultats de stabilité dite linéaire autour des points stationnaires en se basant sur l'étude spectrale de la différentielle.
 \begin{thm}
     \label{thm:eq-ass-stable}
-    Soit $f\in C^2(U;E)$ sur un ouvert $U$ d'un espace de Banach $E$ et $v\in U$ tel que $f(v)=0$. Si le spectre de $\mathcal{D}_\Gamma(v)$ est inclus dans le demi-plan ouvert $\left\{\lambda; \Re(\lambda)<0\right\}$ alors $v$ est un point d'équilibre assymptotiquement stable pour l'équation $u'=f(u)$
+    Soit $f\in C^2(U;\R^d)$ sur un ouvert $U$ de $\R^d$ et $v\in U$ tel que $f(v)=0$. Si le spectre de $\mathcal{D}_\Gamma(v)$ est inclus dans le demi-plan ouvert $\left\{\lambda; \Re(\lambda)<0\right\}$ alors $v$ est un point d'équilibre assymptotiquement stable pour l'équation $u'=f(u)$
 \end{thm}
 
-Ce résultat nous permet de conclure sur le comportement assymtotique des solutions ayant subit une faible perturbation à l'instant de départ (\cad les solution $(\R_+,u_1)$ telles que $u_1(t_{\text{init}})=u(t_{\text{init}})+\varepsilon,\ 0<\|\varepsilon\|\ll 1 $ ). On obtient ainsi $\lim_{t\to\infty}\|u-u_1\| = 0$.
+Ce résultat nous permet de conclure sur le comportement assymtotique des solutions ayant subit une faible perturbation à l'instant de départ (\cad les solutions $(\R_+,u_1)$ telles que $u_1(t_{\text{init}})=u(t_{\text{init}})+\varepsilon,\ 0<\|\varepsilon\|\ll 1 $ ). On obtient ainsi $\lim_{t\to\infty}\|u-u_1\| = 0$.
 
 \begin{thm}
     \label{thm:eq-instable}
-    Soit $f\in C^2(U;E)$ et $v\in U$ tel que $f(v)=0$. Si $\max\{\Re(\lambda); \lambda\in \mathrm{Sp}(\mathcal{D}_f(v))\}$ est atteint pour une valeur propre de $\mathcal{D}_f(v)$ de partie réelle strictement positive. Alors $v$ est un point d'équilibre instable pour l'équation $u'=f(u)$
+    Soit $f\in C^2(U;\R^d)$ et $v\in U$ tel que $f(v)=0$. Si $\max\{\Re(\lambda); \lambda\in \mathrm{Sp}(\mathcal{D}_f(v))\}$ est atteint pour une valeur propre de $\mathcal{D}_f(v)$ de partie réelle strictement positive. Alors $v$ est un point d'équilibre instable pour l'équation $u'=f(u)$
 \end{thm}
 
 % commentaire sur le résultat
+
 Ces théorèmes nous donnent des résultats seulemment pour des valeurs propre toute strictement négative ou au moins une strictement positive. Cependant ces théorèmes ne nous permettent pas de conclure sur le cas où $0$ est valeur propre de la différentielle. Aussi il n'existe pas de résultats pour conclure sur la stabilité simple en étudiant le spectre de la différentielle.
 
 \subsection{Détermination des équilibres}
-Dans un premier temps on regarde si notre système possèdes des équilibres et si oui lesquels.
+Dans un premier temps on regarde si notre système possède des équilibres et si oui lesquels.
 \begin{prop}
-    Si $\beta(1-\rho) \ge 0$, l'equation \eqref{Lorenz} possèdes 3 points d'équilibre qui sont:
+    Si $\beta(1-\rho) \ge 0$, l'equation \eqref{Lorenz} possède 3 points d'équilibre qui sont:
     \begin{align*}
-        0_{\R^3} &&   S_+ :=\colv{\sqrt{ \beta (\rho -1)} \\ \sqrt{\beta (\rho -1)}\\ \rho -1}  &&  S_- := \colv{-\sqrt{ \beta (\rho -1)} \\ - \sqrt{\beta (\rho -1)}\\ \rho -1}
+        S_0 := 0_{\R^3} &&   S_+ :=\colv{\sqrt{ \beta (\rho -1)} \\ \sqrt{\beta (\rho -1)}\\ \rho -1}  &&  S_- := \colv{-\sqrt{ \beta (\rho -1)} \\ - \sqrt{\beta (\rho -1)}\\ \rho -1}
     \end{align*}
 \end{prop}
 
 \begin{proof}
-On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3}$ donc ($\R_+$,$0_{\R^3}$) est une solution de l'equation differentielle.\\
-On resout alors $\Gamma(x,y,z)=0_{\R^3}$ en supposant que $(x,y,z) \neq 0_{\R^3}$, il vient:
+On remarque que $(0,0,0)$ est un point stationnaire, en effet $\Gamma(0,0,0) = 0_{\R^3}$ donc ($\R_+$,$0_{\R^3}$) est une solution de l'équation différentielle.\\
+On résout alors $\Gamma(x,y,z)=0_{\R^3}$ en supposant que $(x,y,z) \neq 0_{\R^3}$, il vient:
 \[
 \left\{\begin{array}{rl} %O of Gamma
      \sigma(y-x)&=0  \\
@@ -275,7 +278,7 @@ de $(L_1)$ on obtient que $x=y$. Dans $(L_2)$ et dans $(L_3)$ on remplace $y$ pa
     (L_2) \Rightarrow \rho x - x - xz = 0 \Rightarrow x (\rho -1 -z ) = 0 \\
     (L_3) \Rightarrow x^2 - \beta z = 0 \Rightarrow z = \frac{x^2}{\beta}
 \end{gather*}
-On obtient ainsi un polynome de degrès 3 il y a donc au plus 3 équilibres:
+On obtient ainsi un polynôme de degré 3, il y a donc au plus 3 équilibres:
 \begin{align*}
     (L_2) & \Rightarrow x (\rho - 1 - \frac{x^2}{\beta}) = 0 \text{, or }x \neq 0\\
         & \Rightarrow x^2 = \beta (1-\rho)\\
@@ -283,7 +286,7 @@ On obtient ainsi un polynome de degrès 3 il y a donc au plus 3 équilibres:
     &\Rightarrow x = \pm \sqrt{\beta(1-\rho)}
 \end{align*}
 
-De ces trois équation on obtient que:
+De ces trois équations on obtient que:
 \[
     \Gamma(x,y,z)=0_{\R^3} \Rightarrow (x,y,z) = (\pm \sqrt{ \beta (\rho -1)} ,\pm \sqrt{\beta (\rho -1)}, \rho -1)
 \]
@@ -292,81 +295,86 @@ On verifie aisément que cette relation est une \'equivalance, en ramplacant les
 \end{proof}
 
 \begin{example}[Remarque]
-    Si $\rho=1$ il n'y a qu'un seul équilibre.
+    Si $\rho=1, 0$ est une racine triple de $\chi$, donc $0_{\R^3}$ est un point stationnaire triple pour \eqref{Lorenz}.
 \end{example}
 
-\subsection{Caractérisation de l'équilibre $0_{\R^3}$}
-Afin d'utiliser les outils introduit dans la partie \ref{sec:Rappel-des-théorèmes}, dans un premier temps on calcule la differentielle de $f$:
+\subsection{Stabilité de l'équilibre $0_{\R^3}$}
+Afin d'utiliser les outils introduit dans la partie \ref{sec:Rappel-des-théorèmes} on introduit le lemme suivant.
+\begin{lemme}[préliminaire]
+    Le polynôme caractéristique de la differentielle de $\Gamma$ évalué en $0_{\R^3}$ est:
+    $$ \chi(\lambda) = (\lambda + \beta)P(\lambda)$$
+    Avec $P:\lambda \in \R \mapsto \lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma$, de plus le déterminant de P est:
+    $$ \Delta = (\sigma-1)^2 +4\sigma\rho $$
+    Notons que $-\beta$ est toujours racine de $\chi$
+\end{lemme}
+
+\begin{proof}
+Dans un premier temps on calcule la différentielle de $\Gamma$:
 \begin{equation}
     \label{eq:diff}
     \mathcal{D}_\Gamma(x_s,y_s,z_s) = 
     \left(\begin{array}{ccc}
         -\sigma & \sigma & 0\\
         \rho- z_s & -1 & -x_s\\
-        y_s & x_s & -b
+        y_s & x_s & -\beta
     \end{array}\right)
 \end{equation}
 
-A présent on calcule le polynome caractéristique de la differentielle en $0_{\R^3}$ (noté $\chi$) donné par le calcul suivant.
+A présent on calcule le polynôme caractéristique de la différentielle en $0_{\R^3}$ (noté $\chi$) donné par le calcul suivant.
 \[
     \chi (\lambda) = \det\big(\lambda\id - \mathcal{D}_{\Gamma}(0,0,0)\big) = (\lambda + \beta)(\lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma)
 \]
-\begin{example}[Remarque]
-    $-\beta$ est toujours racine de $\chi$
-\end{example}
-On remarque que $\chi$ est un polynome de degrè 3 et d'après la remarque précédente on a que $\chi(\lambda) = (\lambda + \beta)P(\lambda)$, avec $P:\lambda \in \R \mapsto \lambda^2 + \lambda(\sigma+1)+\sigma-\rho\sigma$. Ainsi les pour étudier $\chi$, on calcule le deteterminant de $P$:
+Posons $P$ comme dans le lemme. Ainsi pour étudier $\chi$, on calcule le déteterminant de $P$:
 \[
   \Delta = (\sigma+1)^2 - 4(\sigma-\sigma\rho) = (\sigma-1)^2 +4\sigma\rho
 \]
+\end{proof}
 
-Dans la suite on vas dissocier les cas suivant:
-\begin{enumerate}
-    \item Cas $\Delta > 0$:
-    \item Cas $\Delta = 0$:
-    \item Cas $\Delta < 0$:
-\end{enumerate}
+Dans l'étude que l'on propose on vas distinguer 3 cas pour étudier la stabilité l'équilibre du système de Lorenz près de l'origine.
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{DeltaDomain}
-    \caption{Signe de $\Delta$ en fonction de $\rho$ en abscisses et de $\sigma$ en ordonnées}
+    \includegraphics[width=0.8\textwidth]{DeltaDomain}
+    \caption{Signe de $\Delta$ en fonction de $\rho$ en abscisse et de $\sigma$ en ordonné}
     \label{fig:signD}
 \end{figure}
 
 
 \subsubsection*{Cas $\Delta > 0$}
-Premièrement on détermine les conditions pour que $\Delta$ soit strictement positif.
-\begin{prop}
-    $\Delta$ est strictement positif pour l'ensemble des paramètre suivant:
-    \[
-     \left\{(\sigma,\rho)\in \R ^2 : 1-2 \rho - \sqrt{\frac{(4\rho-2)^2}{4} -1 } > \sigma\ et \ \sigma > 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1  } \right\}    
-    \]
-\end{prop}
+\addcontentsline{toc}{subsubsection}{\protect\numberline{} Cas $\Delta>0$}
 
-\begin{proof}
-    $\Delta = \sigma^2 + \sigma(4\rho-2) + 1$ est un polynome de la variable $\sigma$. On note le deteterminant de $\Delta$ selon la variable $\sigma$, $\delta$. $\Delta$ est convexe par rapport à la variable $\sigma$ donc $\Delta$ est strictement positif à l'éxtérieur de ces racines. On a donc:
-    \begin{align*}
-        \sigma <& 1-2 \rho - \sqrt{\frac{(4\rho-2)^2}{4} -1 }\\
-        \text{ou}\\
-        \sigma >& 1-2 \rho + \sqrt{\frac{(4\rho-2)^2}{4} -1 }
-    \end{align*}
-    %finir demo !
-\end{proof}
-
-A présent regardons l'équilibre $0_{\R^3}$ dans le cas $\Delta> 0$
 \begin{prop}
-    Dans le cas $\Delta>0$ si $\beta<0$ l'équilbre $0_{\R^3}$ est instable, si $\beta >0$ on a :
+    Dans le cas $\Delta>0$ si $\beta<0$ l'équilibre $0_{\R^3}$ est instable, si $\beta >0$ on a :
     \begin{itemize}
-        \item Si $\sigma(\rho-1)>0$ alors $0_{\R^3}$ est un equilibre instable pour \eqref{Lorenz}
-        \item Si $\sigma(\rho-1)<0$ alors $0_{\R^3}$ est un equilibre assymptotiquement stable pour \eqref{Lorenz}
+        \item Si $\sigma(\rho-1)>0$ alors $0_{\R^3}$ est un équilibre instable pour \eqref{Lorenz}
+        \item Si $\sigma(\rho-1)<0$ alors $0_{\R^3}$ est un équilibre assymptotiquement stable pour \eqref{Lorenz}
     \end{itemize}
 \end{prop}
 
 \begin{proof}
-    Dans le cas $\Delta>0$ on peut expliciter les racines de $\chi$ qui constitue le spectre de la differentielle de $\Gamma$.On a ainsi:
+    Premièrement on détermine les conditions pour que $\Delta$ soit strictement positif.
+    \begin{lemme}
+        $\Delta$ est strictement positif pour l'ensemble des paramètre suivant:
+        \[
+         \left\{(\sigma,\rho)\in \R ^2 : 1-2 \rho - \sqrt{\frac{(4\rho-2)^2}{4} -1 } > \sigma\ ou \ \sigma > 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1  } \right\}    
+        \]
+    \end{lemme}
+    
+        \begin{proof}[(Lemme)]
+            $\Delta = \sigma^2 + \sigma(4\rho-2) + 1$ est un polynôme de la variable $\sigma$. On note le deteterminant de $\Delta$ selon la variable $\sigma$, $\delta$. $\Delta$ est convexe par rapport à la variable $\sigma$ donc $\Delta$ est strictement positif à l'éxtérieur de ses racines. On a donc:
+            \begin{align*}
+                \sigma <& 1-2 \rho - \sqrt{\frac{(4\rho-2)^2}{4} -1 }\\
+                \text{ou}\\
+                \sigma >& 1-2 \rho + \sqrt{\frac{(4\rho-2)^2}{4} -1 }
+            \end{align*}
+            %finir demo !
+        \end{proof}
+        
+    Maintenant regardons l'équilibre $0_{\R^3}$ dans le cas $\Delta> 0$.On peut expliciter les racines de $\chi$ qui constitue le spectre de la differentielle de $\Gamma$.On a ainsi:
     \[
-      \mathrm{Sp}(\mathcal{D}_\Gamma)= \left\{-\beta,\lambda_+ := \frac{-(\sigma+1) + \sqrt{\Delta}}{2},\lambda_- := \frac{-(\sigma+1) - \sqrt{\Delta}}{2}\right\}  
+        \mathrm{Sp}(\mathcal{D}_\Gamma (0_{\R^3}))= \left\{-\beta,\lambda_+ := \frac{-(\sigma+1) + \sqrt{\Delta}}{2},\lambda_- := \frac{-(\sigma+1) - \sqrt{\Delta}}{2}\right\}  
     \]
-    Premièrement on différencie le cas $\beta<0$, dans ce cas alors $\max(\mathrm{Sp}(\mathcal{D}_\Gamma))\ge -\beta > 0$, donc dans ce cas $0_{\R^3}$ est un équilibre instable pour \eqref{Lorenz}. Dans le cas où $\beta$ est positif,comme $\lambda_+>\lambda_-$ si $\lambda_+ > 0$ l'équilbre est instable sinon l'équilibre est instable. On cherche alors $\rho$ et $\sigma$ tel que $\lambda_+>0$
+
+    Premièrement on différencie le cas $\beta<0$, dans ce cas alors $\max(\mathrm{Sp}(\mathcal{D}_\Gamma (0_{\R^3})))\ge -\beta > 0$, donc dans ce cas $0_{\R^3}$ est un équilibre instable pour \eqref{Lorenz}. Dans le cas où $\beta$ est positif,comme $\lambda_+>\lambda_-$ si $\lambda_+ > 0$ l'équilibre est instable sinon l'équilibre est instable. On cherche alors $\rho$ et $\sigma$ tel que $\lambda_+>0$
     \begin{align*}
         && \frac{-(\sigma+1) + \sqrt{(\sigma-1)^2+4\rho\sigma}}{2} &>0 \\
         \Leftrightarrow && (\sigma-1)^2+4\rho\sigma &> (\sigma+1)^2 \\
@@ -374,134 +382,95 @@ A présent regardons l'équilibre $0_{\R^3}$ dans le cas $\Delta> 0$
     \end{align*}
 \end{proof}
 
-\begin{example} 
-    Dans cette configuration (figure \ref{fig:EqINS-Dsup0}) on retombe sur les paramètre qui permettent d'observer la trajectoire en forme d'ailes de papillon décrite par E. Lorenz lors de son article de 1963\cite{lorenz1963}. La figure observé apparait pour les paramètres $(\sigma,\rho,\beta) = (10,28,8/3)$. D'après la proposition qui précède c'est donc un cas d'équilibre instable avec $\Delta>0$.
-
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width = \textwidth]{EqINS-Dsup0}
-        \caption{Example d'équilbre instable pour $\Delta>0$}
-        \label{fig:EqINS-Dsup0}
-    \end{figure}
-
-    Dans la figure \ref{fig:EqAS-Dsup0},on observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se raprochent jusqu'a un ecart très faible. Dans ce cas de figure il est possible de représenter les cas instable, ce qui ne seras pas le cas pour les prochains $\Delta \le 0$.
-    
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width = \textwidth]{EqAS-Dsup0}
-        \caption{Example d'équilibre assymptotiquement stable pour $\Delta>0$}
-        \label{fig:EqAS-Dsup0}
-    \end{figure}
-    
-\end{example}
 
 \subsubsection*{Cas $\Delta = 0$}
-On s'intéresse maintenant aux cas tels que $\Delta=0$
+\addcontentsline{toc}{subsubsection}{\protect\numberline{} Cas $\Delta=0$}
 
-\begin{prop} 
-    \label{prop:Deg0}
-    $\Delta$ est nul si et seulemment si on a la paramétrisation suivante,
-    \[
-        \left\{(\sigma,\rho)\in \R ^2 :\sigma = 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 }\ ou\ \sigma = 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 } \right\}  
-    \]
-\end{prop}
 
-\begin{example}[Remarque]
-    Cette paramétrisation implique que $\rho \in \R \setminus ]0,1[$ 
-\end{example}
-
-\begin{proof}
-    A nouveaux on considère $\Delta$ comme un polynome de la variable $\sigma$. Pour que $\Delta$ ait des racines il faut que $\delta$ soit positif ou nul.
-    \[
-    \delta \ge 0 \Leftrightarrow \rho(\rho-1) \ge 0 \Leftrightarrow \rho \in \R \setminus ]0,1[
-    \] Maintenant on calcule les racines de $\Delta$.
-    \begin{align*}
-        \sigma &= \frac{2-4\rho + \sqrt{ (4\rho-2)^2 -4 }}{2} = 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 }\\
-        \text{ou}\\
-        \sigma &= \frac{2-4\rho - \sqrt{ (4\rho-2)^2 -4 }}{2} = 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }
-    \end{align*}
-    On obtient ainsi la paramétrisation voulue.
-\end{proof}
-Maintenant on s'intéresse à la stabilité de l'équilibre pour le cas $\Delta=0$.
-% Stabilité pour \Delta = 0
 \begin{prop}\label{prop:eqDeg0}
     Dans le cas $\Delta=0$:
-    Si $\beta <0$ l'équilbre est instable si $\beta>0$ alors on a:
+    Si $\beta <0$ l'équilibre est instable si $\beta>0$ alors on a:
     \begin{itemize}
-        \item Si $\sigma < -1 , \rho > 1$ alors $0_{\R^3}$ est un equilibre instable pour \eqref{Lorenz}
-        \item Si $\sigma > -1 , \rho < 1$ alors $0_{\R^3}$ est un equilibre assymptotiquement stable pour \eqref{Lorenz}
+        \item Si $\sigma < -1 , \rho > 1$ alors $0_{\R^3}$ est un équilibre instable pour \eqref{Lorenz}
+        \item Si $\sigma > -1 , \rho < 1$ alors $0_{\R^3}$ est un équilibre assymptotiquement stable pour \eqref{Lorenz}
     \end{itemize}
 \end{prop}
 \begin{proof} %DEMO
-    Comme $-\beta$ est toujours racine de $\chi$ si $\beta <0$ alors $\max (\mathrm{Sp}(\mathcal{D}_\Gamma)) \ge -\beta > 0$ donc d'après le theoreme \ref{thm:eq-instable}, $0_{\R^3}$ est un équilbre instable pour \eqref{Lorenz}\\
-    Si $\beta > 0$ alors dans le cas de $\Delta = 0, \mathrm{Sp}(\mathcal{D}_\Gamma) = \{\beta, -\frac{\sigma+1}{2}\}$, on cherche alors les conditions sur les paramètre $\sigma$ et $\rho$ telles que le système soit instable ou assymptotiquement stable.
+    On s'intéresse d'abbord aux cas tels que $\Delta=0$
+
+    \begin{lemme} 
+        \label{lemme:Deg0}
+        $\Delta$ est nul si et seulemment si on a la paramétrisation suivante,
+        \[
+            \left\{(\sigma,\rho)\in \R ^2 :\sigma = 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 }\ ou\ \sigma = 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 } \right\}  
+        \]
+        Cette paramétrisation implique que $\rho \in \R \setminus ]0,1[$
+    \end{lemme}
+    
+    \begin{proof}[(Lemme)]
+        A nouveau on considère $\Delta$ comme un polynôme de la variable $\sigma$. Pour que $\Delta$ ait des racines il faut que $\delta$ soit positif ou nul.
+        \[
+        \delta \ge 0 \Leftrightarrow \rho(\rho-1) \ge 0 \Leftrightarrow \rho \in \R \setminus ]0,1[
+        \] Maintenant on calcule les racines de $\Delta$.
+        \begin{align*}
+            \sigma &= \frac{2-4\rho + \sqrt{ (4\rho-2)^2 -4 }}{2} = 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 }\\
+            \text{ou}\\
+            \sigma &= \frac{2-4\rho - \sqrt{ (4\rho-2)^2 -4 }}{2} = 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }
+        \end{align*}
+        On obtient ainsi la paramétrisation voulue.
+    \end{proof}
+    Maintenant on s'intéresse à la stabilité de l'équilibre pour le cas $\Delta=0$. Comme $-\beta$ est toujours racine de $\chi$ si $\beta <0$ alors $\max (\mathrm{Sp}(\mathcal{D}_\Gamma (0_{\R^3}))) \ge -\beta > 0$ donc d'après le théorème \ref{thm:eq-instable}, $0_{\R^3}$ est un équilibre instable pour \eqref{Lorenz}\\
+    Si $\beta > 0$ alors dans le cas de $\Delta = 0, \mathrm{Sp}(\mathcal{D}_\Gamma) = \{\beta, -\frac{\sigma+1}{2}\}$, on cherche alors les conditions sur les paramètres $\sigma$ et $\rho$ telles que le système soit instable ou assymptotiquement stable.
     On s'intéresse au cas instable et on inversera le sens des inégalités pour avoir le cas assymptotiquement stable. 
     \[
         -\frac{\sigma+1}{2} >0 \Leftrightarrow \sigma < -1   
     \]
-    Dans la première équation on obtient que $-1 > 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1}$ n'as pas de solutions.
+    Dans la première équation de la paramétrisation on obtient que 
+    \[-1 > 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1}\] n'a pas de solutions.
     Dans la seconde équation on cherche $\rho$ tel que:
     \[
         1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 } < -1 \Rightarrow \frac{(4\rho-2)^2}{4} -1 > (2\rho-2)^2 \Leftrightarrow \rho > 1 
-    \]En faisant les caluls avec l'inégalités inverse on retrouve le cas assymptotiquement stable.
+    \]En faisant les caluls avec l'inégalité inverse, on retrouve le cas assymptotiquement stable.
 \end{proof}
-\begin{example}
-    Dans la figure \ref{fig:EqAS-Deg0}n observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se raprochent jusqu'a un ecart très faible. Dans ce cas de figure il n'est pas intéressant de représenter le cas où l'équilibre est instable, car les solutions s'éloignent très rapidement de l'origine et entres elles.
-    \begin{figure}[ht]
-        \label{fig:EqAS-Deg0}
-        \centering
-        \includegraphics[width = \textwidth]{EqAS-Deg0}
-        \caption{Example d'équilibre assymptotiquement stable pour $\Delta=0$}
-    \end{figure}
-\end{example}
 
 \subsubsection*{Cas $\Delta < 0$}
-On determine les cas tels que $\Delta<0$
-%CAS \Delta < 0
-\begin{prop}
-    $\Delta$ est strictement négatif pour l'ensemble des paramètre suivant:
-    \[
-     \left\{(\sigma,\rho)\in \R ^2 : 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }< \sigma < 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 } \right\}    
-    \]
-\end{prop}
-\begin{example}[Remarque]
-    Dans cet ensemble on a que: $\rho \in \R \setminus [0,1]$ 
-\end{example}
+\addcontentsline{toc}{subsubsection}{\protect\numberline{} Cas $\Delta<0$}
 
-\begin{proof}
-    Pour que $\Delta$ ait des racines il faut que $\delta$ soit strictement positif.
-    \[
-    \delta > 0 \Leftrightarrow \rho(\rho-1) > 0 \Leftrightarrow \rho \in \R \setminus [0,1]
-    \]Par convexité de $\Delta$ on a que $\Delta$ est négatif entre ces racines, il vient alors:
-    \[
-        1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 } < \sigma < 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }
-    \]Donc l'ensemble des $\rho,\sigma$ qui verifie cette inégalité sont alors des paramètres tels que $\Delta$ est négatif.
-\end{proof}
-On determine les cas pour lesquels l'equilibre est instable ou assymptotiquement stable.
 % Stabilité cas \Delta < 0
 \begin{prop}
     Dans le cas $\Delta<0$:
-    Si $\beta <0$ l'équilbre est instable si $\beta>0$ alors on a:
+    Si $\beta <0$ l'équilibre est instable si $\beta>0$ alors on a:
     \begin{itemize}
-        \item Si $\sigma < -1 , \rho > 1$ alors $0_{\R^3}$ est un equilibre instable pour \eqref{Lorenz}
-        \item Si $\sigma > -1 , \rho < 1$ alors $0_{\R^3}$ est un equilibre assymptotiquement stable pour \eqref{Lorenz}
+        \item Si $\sigma < -1 , \rho > 1$ alors $0_{\R^3}$ est un équilibre instable pour \eqref{Lorenz}
+        \item Si $\sigma > -1 , \rho < 1$ alors $0_{\R^3}$ est un équilibre assymptotiquement stable pour \eqref{Lorenz}
     \end{itemize}
 \end{prop}
 \begin{proof}
-    Pour la différenciation du cas de $\beta$ cf. la démonstration de \ref{prop:eqDeg0}. Dans ce cas on a:
+    On détermine les cas tels que $\Delta<0$
+    %CAS \Delta < 0
+    \begin{lemme}
+        $\Delta$ est strictement négatif pour l'ensemble des paramètres suivants:
+        \[
+        \left\{(\sigma,\rho)\in \R ^2 : 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }< \sigma < 1-2 \rho + \sqrt{ \frac{(4\rho-2)^2}{4} -1 } \right\}    
+        \]Dans cet ensemble on a que: $\rho \in \R \setminus [0,1]$ 
+    \end{lemme}
+
+    \begin{proof}[(Lemme)]
+     Pour que $\Delta$ ait des racines il faut que $\delta$ soit strictement positif.
     \[
-        \mathrm{Sp}(\mathcal{D}_\Gamma) = \left\{\beta, \omega := \frac{-(\sigma+1)+ i \sqrt{-\Delta}}{2}, \bar{\omega} := \frac{-(\sigma+1)- i \sqrt{-\Delta}}{2}\right\}
-    \]Pour étudier la stabilité on s'intéresse à la partie réelle de $\omega$ et $\bar{\omega}$. Or $\Re (\omega) = \Re (\bar{\omega}) = -\frac{\sigma+1}{2}$ on retombe ainsi sur le même cas que dans la démonstration de la propriété \ref{prop:eqDeg0}. On retrouve bien le cas voulue.
+    \delta > 0 \Leftrightarrow \rho(\rho-1) > 0 \Leftrightarrow \rho \in \R \setminus [0,1]
+    \]Par convexité de $\Delta$ on a que $\Delta$ est négatif entre ses racines, il vient alors:
+    \[
+        1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 } < \sigma < 1-2 \rho - \sqrt{ \frac{(4\rho-2)^2}{4} -1 }
+    \]Donc l'ensemble des $\rho,\sigma$ qui vérifie cette inégalité sont alors des paramètres tels que $\Delta$ est négatif.
+    \end{proof}
+
+    On determine les cas pour lesquels l'équilibre est instable ou assymptotiquement stable.Pour la différenciation du cas de $\beta$ cf. la démonstration de \ref{prop:eqDeg0}. Ainsi il vient:
+    \[
+        \mathrm{Sp}(\mathcal{D}_\Gamma (0_{\R^3})) = \left\{\beta, \omega := \frac{-(\sigma+1)+ i \sqrt{-\Delta}}{2}, \bar{\omega} := \frac{-(\sigma+1)- i \sqrt{-\Delta}}{2}\right\}
+    \]Pour étudier la stabilité on s'intéresse à la partie réelle de $\omega$ et $\bar{\omega}$. Or $\Re (\omega) = \Re (\bar{\omega}) = -\frac{\sigma+1}{2}$ on retombe ainsi sur le même calcul que dans la démonstration de la propriété \ref{prop:eqDeg0}. On retrouve bien le cas voulu.
 \end{proof}
-\begin{example}
-    On observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se raprochent jusqu'a un ecart très faible. Dans ce cas de figure il n'est pas intéressant de représenter le cas où l'équilibre est instable, car les solutions s'éloignent très rapidement de l'origine et entres elles.
-    
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width = \textwidth]{EqAS-Dinf0}
-        \caption{Example d'équilibre assymptotiquement stable pour $\Delta=0$}
-    \end{figure}
-\end{example}
+
 \subsection{Caractérisation de $S_\pm$}
 
 Dans cette section nous allons nous intéresser au point d'équilibres définit précédemment $S_+$ et $S_-$. Nous ferons aussi quelques hypothèses simplificatrices, supposons $\sigma,\rho,\beta$ positifs et de plus $\sigma>\beta+1$.
@@ -515,10 +484,187 @@ Dans cette section nous allons nous intéresser au point d'équilibres définit 
 \end{prop}
 
 \begin{example}[Remarque]
-    Si $\rho \in [0,1]$ les equilibres $S_\pm$ n'existent pas.
+    Si $\rho \in [0,1[$ les équilibres $S_\pm$ n'existent pas.
 \end{example}
-\section{Annexes}
+\newpage
+\section{Méthodes numériques}
 
+Dans cette section nous allons introduire les méthodes numériques pour la résolution d'équation differentielle ordinaire (EDO). 
+\begin{example}[Problématique]
+    Pourquoi introduire des méthodes numériques pour la résolution des EDO ? 
+\end{example}
+Lorsque on étudie des équations differentielles la théorie nous permet sous certaines conditions d'affirmer que la solution à un problème de Cauchy existe et est maximale. Cependant leurs expressions explicites n'est pas garantie. Cependant lorsqu'on aborde les EDO non-linéaire, la plupart du temps nous ne sommes pas capable d'expliciter la solution analytique. C'est pourquoi on introduit les méthodes numériques.\\
+Commençons par introduire la forme générale d'une équation différentielle\footnote{NB: Ici on présente les méthodes numériques dans $\R^3$ on peut se ramener au cas d'un espace vectoriel plus général}.
+\[
+    u'(t) = f(t,u(t)),\quad \text{avec } f\in C^1(]a,b[ \times \R^3 ;\R^3)\text{ et }u : \R^3 \to \R^3
+\]
+Ici $u$ est la fonction à déterminer. Alors d'après le théorème de Cauchy-Lipschitz il existe une solution maximale et $C^1$ au problème de Cauchy suivant sur l'intervalle $[t_I,t_F] \subset ]a,b[ $:
+\[
+    \left\{\begin{array}{l}
+        u'(t)=f(t,u)\\
+        u(t_I) = \nu
+    \end{array}\right.
+\]
+Maintenant que nous savons que la solution existe sur un intervalle de temps fermé, on cherche a approcher les valeurs de la solution numériquement. Pour cela, on subdivise l'intervalle $[t_I,t_F]$ en $N$ sous intervalles et on calcule a l'aide d'un schéma numérique donné, la valeur approché de la solution pour tout les temps $t_n,\ 0\le n \le N$
+
+\subsection*{Première méthode numérique, le schéma d'Euler explicite}
+\addcontentsline{toc}{subsection}{\protect\numberline{}Première méthode numérique, le schéma d'Euler explicite}
+On introduit maintenant la première méthode de résolution.
+\begin{definition}
+    On note $(y_n)_{0 \le n \le N}$ la suite des approximations des valeurs de $u$ aux points $(t_n)_{0 \le n \le N}$. On appelle $h$ le pas de la méthode, et $h:= \frac{t_F-t_I}{N}$. Alors on a:
+    \[
+        \left\{\begin{array}{rcl}
+        t_n &=& t_0 + n h \\
+        y_{n+1} &=& y_n + h f(t_n,y_n)\\
+        y_0 &=& \nu
+        \end{array}\right. \forall 0 \le n \le N
+    \]
+\end{definition}
+
+\begin{example}[Mise en \oe{}vre]
+    On intègre notre équation differentielle entre les instants $t_{n}$ et $t_{n+1}$, il vient:
+    \[
+      u(t_{n+1}) - u(t_n) = \int_{t_n}^{t_{n+1}} f(x,u(x))\ \mathrm{d}x
+    \]
+    On approche l'intégrale par la méthode des rectangles et on obtient:
+    \[
+        \int_{t_n}^{t_{n+1}} f(x,u(x))\ \mathrm{d}x = (t_{n+1}-y_n)f(t_n,u(t_n))
+    \]Or $\forall n , u(t_n) \approx y_n $, d'où:
+    \[
+        y_{n+1} = y_n + h f(t_n,y_n)
+    \]De plus $u(t_0) = \nu = y_0$. On obtient alors le schéma d'Euler explicite.
+\end{example}
+Le schéma d'Euler est une méthode simple à utiliser et à implémenter. Cependant l'ordre de son erreur, en effet la méthode d'Euler est d'ordre 2 (\cad que l'érreur décroit comme une droite de pente 2 à l'échelle logarithmique selon le nombre de subdivision de notre intervalle de départ). 
+\subsection*{Le schéma de Runge-Kutta 4}
+\addcontentsline{toc}{subsection}{\protect\numberline{} Le schéma de Runge-Kutta 4}
+
+On s'interresse maintenant au schémas de Runge-Kutta ces schémas sont des méthodes dites multi-pas (\cad on fait une moyenne pondérée de l'approximation en plusieurs points). Plus particulièrement, la méthode de Runge-Kutta 4.
+\begin{thm}
+    On approche les valeurs de la solution de l'équation differentielle par la suite $(y_n)_{0\le n \le N}$ sur l'intervalle $[t_I,t_F]$, avec $N$ le nombre de subdivision de l'intervalle. Alors on a: 
+
+    \begin{align*}
+    k_1 &= h f(t_n, y_n) \\
+    k_2 &= h f\left(t_n + \frac{h}{2}, y_n + \frac{1}{2}k_1\right) \\
+    k_3 &= h f\left(t_n + \frac{h}{2}, y_n + \frac{1}{2}k_2\right) \\
+    k_4 &= h f(t_n + h, y_n + k_3)\\
+    y_{n+1} &= y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4) 
+    \end{align*}
+    
+    La méthode de Runge-Kutta 4 est d'ordre 4.
+\end{thm}
+On admet la démonstration de cette méthode. Aussi on la choisira pour illustrer les résultats sur le système de Lorenz. Les paramètres que nous utiliserons pour les modélisations à suivre, $[t_I,t_F] = [0,30], h = 0.01 \text{ et }u(t=0)= (6,4,2)$
+
+\newpage
+\section{Interprétations}
+\begin{example}[Exemple]
+    Dans cette configuration (figure \ref{fig:EqINS-Dsup0}) on retombe sur les paramètre qui permettent d'observer la trajectoire en forme d'ailes de papillon décrite par E. Lorenz lors de son article de 1963\cite{lorenz_deterministic_1963}. La figure observé apparait pour les paramètres $(\sigma,\rho,\beta) = (10,28,8/3)$. D'après la proposition qui précède c'est donc un cas d'équilibre instable avec $\Delta>0$.
+
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width = \textwidth]{EqINS-Dsup0}
+        \caption{Exemple d'équilibre instable pour $\Delta>0$}
+        \label{fig:EqINS-Dsup0}
+    \end{figure}
+
+    Dans la figure \ref{fig:EqAS-Dsup0},on observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se rapprochent jusqu'a un écart très faible. Dans ce cas de figure il est possible de représenter les cas instable, ce qui ne sera pas le cas pour les prochains cas ($\Delta \le 0$).
+    
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width = \textwidth]{EqAS-Dsup0}
+        \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta>0$}
+        \label{fig:EqAS-Dsup0}
+    \end{figure}
+    
+\end{example}
+\begin{example}[Exemple]
+    Dans la figure \ref{fig:EqAS-Deg0}n observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se rapprochent jusqu'a un ecart très faible. Dans ce cas de figure il n'est pas intéressant de représenter le cas où l'équilibre est instable, car les solutions s'éloignent très rapidement de l'origine et entres elles.
+    \begin{figure}[ht]
+        \label{fig:EqAS-Deg0}
+        \centering
+        \includegraphics[width = \textwidth]{EqAS-Deg0}
+        \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta=0$}
+    \end{figure}
+\end{example}
+
+\begin{example}
+    On observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se rapprochent jusqu'a un écart très faible. Dans ce cas de figure il n'est pas intéressant de représenter le cas où l'équilibre est instable, car les solutions s'éloignent très rapidement de l'origine et entres elles.
+    
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width = \textwidth]{EqAS-Dinf0}
+        \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta=0$}
+    \end{figure}
+\end{example}
+\begin{example}[Exemple]
+    Dans la figure \ref{fig:Eq-Spm} on a $\rho \approx 26,66$, on observe alors:
+    \begin{itemize}
+        \item pour $\rho = 1/2$ on a que le système est très simple puisque les équilibre sont réduits a $0_{\R^3}$ de plus nous sommes dans le cas où $\Delta < 0$ et l'équilibre est assymptotiquement stable donc la solution vas directement vers $0_{\R^3}$
+        \item  Pour les cas $\rho = 10$ et $\rho =20$, on se retrouve dans le cas ou les équilibres existent et sont assymptotiquement stables car $\rho<\rho^*$, on observe bien que la trajectoire de la solution se raproche d'un équilibre et ne semble pas s'en éloigner.
+        \item Pour les cas restants on a, $\rho>\rho^*$ on observe alors que la trajectoire de la solution semble s'entendre dans l'espace sans jamais se diriger vers un équilibre. Cependant les solutions semblent rester dans une sous partie de l'espace.
+    \end{itemize}
+    \begin{figure}[ht]
+        \includegraphics[width=\textwidth]{Eq-Spm}
+        \label{fig:Eq-Spm}
+        \caption{Solutions de \eqref{Lorenz} en fonction de $\rho$}
+    \end{figure}
+\end{example}
+\newpage
+\section{Conclusion}
+
+Au cours de notre étude à l'aide de l'exemple de l'attracteur de Lorenz, nous avons approché le concept de chaos dans les équations differentielles. Notre étude nous a permis de constater que les comportements singulier proviennent de faibles perturbations dans les conditions initiales. De plus ces comportements ne sont pas uniquement inhérent au conditions initiales ils dépendent de la configuration du système nous avons pu constater que il existe des jeux de paramètres, donc de configurations telles que les trajectoires des solutions ne fassent pas apparaître de comportement chaotique (On peut faire une analogie avec la mécanique des fluides, les système a grand nombre de Rayleigh sont autement chaotique à cause de faible viscosité, à contrario les systèmes a faible nombre de Rayleigh en forte présence de frottements ne sont pas sensibles au faibles perturbations. c'est d'ailleur la correspondance de $\rho$ dans les approximation de Lorenz). Ces mouvements qui pourrait sembler aléatoire sont enfait déterministe. Cependant dû à la difficulté de mesurer de mainière suffisament fiable les grandeurs qui évoluent dans le système, il en devient autement imprévisible. C'est ce que on à pu constater durant l'étude des équilibres.\\
+Pour continuer l'étude de ce système nous pourrions nous interresser au rapport entre l'attracteur de Lorenz et la "Tent map" qui permet de déterminer si il existe un seuil tel que le mouvement devienne chaotique.
+
+\newpage
+\section{Annexes}
+\subsection*{Méthodes des rectangles}
+\addcontentsline{toc}{subsection}{\protect\numberline{}Méthodes des rectangles}
+La méthode des rectangles est une méthode numérique pour approximer le calcul d'intégrale. La méthode des rectangles consiste à approximer l'aire sous la courbe par un rectangle. On peut choisir la hauteur du rectangle de différentes manières (à gauche, au millieu et à gauche). Décrit dans l'image qui suit.
+\includegraphics[width=.9\textwidth]{MethodeRect}
+
+Considérons l'intégrale bien définie suivante:
+\[
+  I := \int_a^b f(x)\ \mathrm{d}x\quad \text{avec }a<b
+\] 
+On peur approximer cette intégrale de trois manières différentes:
+Méthode des rectangles à gauche:
+\[
+    I \approx (b-a) f(a)
+\]\\
+Méthode des rectangles millieu:
+\[
+    I \approx (b-a) f(\frac{a+b}{2})
+\]\\
+Méthode des rectangles à droite:
+\[
+    I \approx (b-a) f(b)
+\]
+\begin{example}[Remarque]
+    Comme le montre l'image ci-dessus l'approximation peut-être grossière
+\end{example}
+
+\subsection*{Code}
+\addcontentsline{toc}{subsection}{\protect\numberline{}Code}
+L'ensemble des graphes ont été génerés sur python à l'aide des bibliothèques Matplotlib et Numpy. Vous pouvez retrouver l'ensemble de ces codes sur le Github du projet ou sur filesender jusqu'au 29/05:
+\begin{itemize}
+    \item Filesender:\\ \url{https://filesender.renater.fr/?s=download&token=d4f04658-9db0-4820-ad5d-05dac5863664}
+    \item Github:\\ \url{https://github.com/N3rida/Projet}
+\end{itemize}
+Les correspondance des fichiers sont celles donné par ce tableau:\\
+\begin{tabular}{|m{.3\textwidth}|m{.65\textwidth}|}
+    \hline
+    genGraph.py & générations des graphes des exemples de la stabilité pour les différent cas de $\Delta$\\
+    \hline
+    GrapheSolution.py & graphe de la solution comme dans la page de couverture\\
+    \hline
+    DeltaDomain.py & graphe du signe de $\Delta$ en fonction de $\rho$ et $\sigma$\\
+    \hline
+    genSpmEquilibrium.py & graphe pour comparer l'évolution de la trajectoire autour des équilibre $S_\pm$ en fonction de $\rho$\\
+    \hline
+    genMethRect.py & graphe explicatif de la méthode des rectangles\\
+    \hline
+\end{tabular}
+
+\newpage
 \nocite{*}
 \printbibliography[heading=bibintoc,title={Bibliographie}]
 \end{document}
