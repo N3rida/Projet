@@ -3,7 +3,7 @@
 \usepackage[T1]{fontenc}
 
 \usepackage{graphicx} % Required for inserting images
-\graphicspath{{C:/Users/chabe/Documents/L3/PROJET/Projet/CRFinal/ressources/}}
+\graphicspath{{ressources/}}
 \usepackage[hyphens]{url}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -49,10 +49,10 @@
 \newcommand{\setbackground}[1]{ \backgroundsetup{ scale=1, opacity=1, angle=0, contents={ \includegraphics[width=\paperwidth]{#1} } } }
 
 \newtheorem[M , nocut]{prop}{Proposition}[section]
-\newtheorem[S , nocut]{definition}{Définition}
-\newtheorem[S , nocut]{lemme}{Lemme}
+\newtheorem[M , nocut]{definition}{Définition}
+\newtheorem[M , nocut]{lemme}{Lemme}
 \newtheorem[L , nocut]{thm}{Théoreme}
-\newtheorem[L , nocut]{cor}{Corollaire}
+\newtheorem[M , nocut]{cor}{Corollaire}
 
 \begin{document}
 \begin{titlepage}
@@ -84,14 +84,14 @@
 \begin{quotation}
     Does a flap of a butterfly's wings in Brazil set off a tornado in Texas?
 \end{quotation}
-C'est le titre de l'article que Edward N. Lorenz publie en 1972 \cite{lorenz_does_1972}, dans lesquels il fais la synthèse de ce que l'on connait sous le nom de la théorie du chaos. La question peut être traduite par "Es-ce qu'un battement d'ailes de papillon au Brésil peut entrainer une tornade au Texas ?". En effet lors de l'étude de certains systèmes une faible variation peut entrainer des changements considérables dans les états ultérieurs du système. Tout au long de sa vie Lorenz se seras intéressé aux systèmes chaotiques essentiellement appliqué à son domaine de recherche : la météorologie. Dès 1963 il propose un modèle simplifié pour essayer de décrire la méteo \cite{lorenz_deterministic_1963}. Ce modèle à contribué à montrer la difficulté de prédire le climat à long terme. Dans l'approximation les paramètres $\sigma$ et $\rho$ correspondent au nombre de Prandtl et au nombre de Rayleigh, $x$ est un indicateur des mouvements de convection, $y$ est proportionnel à la variation de température dans les courants verticaux, et $z$ est un indicateur de la variation de température par rapport à un profil linéaire. Nous nous interresseront uniquement à l'étude mathématique de ce système. Ce système est appellé l'attracteur de Lorenz (aussi appellé attracteur étrange ou système de Lorenz).
+C'est le titre de l'article que Edward N. Lorenz publie en 1972 \cite{edward_lorenz_does_1972}, dans le quel il fait la synthèse de ce que l'on connait sous le nom de la théorie du chaos. La question peut être traduite par "Est-ce qu'un battement d'ailes de papillon au Brésil peut entrainer une tornade au Texas ?". En effet lors de l'étude de certains systèmes, une faible variation peut entraîner des changements considérables dans les états ultérieurs du système. Tout au long de sa vie Lorenz se seras intéressé aux systèmes chaotiques essentiellement appliqués à son domaine de recherche : la météorologie. Dès 1963, il propose un modèle simplifié pour essayer de décrire la méteo \cite{edward_n_lorenz_deterministic_1963}. Ce modèle à contribué à montrer la difficulté de prédire le climat à long terme. Ce modèle à été présenté sous la forme suivante.
 \begin{equation}
     \label{Lorenz}
     \left\{
     \begin{array}{rl}
-        x' &=\sigma(y-x) \\
-        y' &=\rho x -y - xz\\
-        z' &=xy - \beta z
+        x' &=\sigma(y-x), \\
+        y' &=\rho x -y - xz,\\
+        z' &=xy - \beta z,
     \end{array}
     \right.
     \begin{array}{r}
@@ -100,8 +100,7 @@ C'est le titre de l'article que Edward N. Lorenz publie en 1972 \cite{lorenz_doe
         (L_3)
     \end{array}
 \end{equation}
-(\textit{avec $\sigma,\rho,\beta$ des paramètres}).
-A travers cette études nous allons présenter certaines caractéristiques chaotiques du système en modélisant les résultats théorieques avec des applications numériques, nous pourront notamment observer les courbes qui prennent la forme d'ailes de papillon qui donneront leur nom a l'effet éponyme.
+(\textit{Avec $\sigma,\rho,\beta$ des paramètres}). Dans ce système les inconues sont les fonction du temps $t$, $x$,$y$ et $z$. $x$ est un indicateur des mouvements de convection, $y$ est proportionnel à la variation de température dans les courants verticaux, et $z$ est un indicateur de la variation de température par rapport à un profil linéaire. Dans l'approximation les paramètres $\sigma$ et $\rho$ correspondent au nombre de Prandtl et au nombre de Rayleigh. Nous nous interresseront uniquement à l'étude mathématique de ce système. Ce système est appelé l'attracteur de Lorenz (aussi appelé attracteur étrange ou système de Lorenz). \`A travers cette étude nous allons présenter certaines caractéristiques chaotiques du système en modélisant les résultats théoriques avec des applications numériques, nous pourrons notamment observer les courbes qui prennent la forme d'ailes de papillon qui donneront leur nom a l'effet éponyme.
    
 \newpage
 \section{Résultats fondamentaux pour les équations differentielles}
@@ -112,7 +111,7 @@ Dans ce chapitre on rappelle les résultats sur lesquels repose notre étude.
     On appele équation différentielle une équation de la forme
     \[
       u'(t) = f(t,u(t))  
-    \]où $f \in C^0(I\times U,\R^d)$ et $u \in C^1(I,U)$ avec $I$ un intervalle de $\R$ et $U \subset \R^d$ ouvert.
+    \]où $f \in C(I\times U,\R^d)$ et $u \in C^1(I,U)$ avec $I$ un intervalle de $\R$ et $U \subset \R^d$ ouvert.
 \end{definition}
 \begin{example}[Remarque]
     Si $f$ ne dépend pas directement de $t$, l'équation est dite autonome
@@ -140,7 +139,7 @@ Lorsque l'on souhaite étudier les équations differentielles le lemme de Grönw
         u(t) \le u(t_0)e^{\int_{t_o}^t a(s)\ \mathrm{d}s}
     \]
 \end{lemme}
-Cet énoncé du lemme n'est pas le plus complet qu'il est possible d'établir, il est cependant suffisant pour notre étude. On admet la démonstration que l'on peut retrouver dans le livre de Berthelin (p.18). 
+Cet énoncé du lemme n'est pas le plus complet qu'il est possible d'établir, il est cependant suffisant pour notre étude. On admet la démonstration que l'on peut retrouver dans le livre de Berthelin (p.18) \cite{florent_berthelin_equations_2021}.
 L'outil le plus important pour l'étude des équations différentielles ordinaire, qui nous permet de déterminer l'existence et l'unicité des solutions est le théorème suivant.
 \begin{thm}
     \label{thm:CL}
@@ -156,23 +155,24 @@ Maintenant que nous avons introduit les principaux outils pour l'étude des équ
 \newpage
 \section{Existence et premières propriétés}
 
-Dans cette section nous allons faire une étude du systeme de Lorenz afin de déterminer l'existence des solutions. Nous nous limiterons à l'étude des temps positifs ($t \ge 0$). Pour cela on transforme l'équation \eqref{Lorenz} sous une forme plus pratique pour l'étude, on a:
-\begin{equation}
-    \label{fLorenz}
-    \deriv{\Vec{u}}{t} = \Gamma(\Vec{u}), \quad
-    \Gamma : \Vec{u} = \colv{x\\y\\z} \in \R^3 \mapsto \colv{\sigma(y-x) \\ \rho x-y-xz \\ xy-\beta z}
-    \end{equation}
-Commençons notre étude du système.
+Dans cette section nous allons faire une étude du systeme de Lorenz afin de déterminer l'existence des solutions. Nous nous limiterons à l'étude des temps positifs ($t \ge 0$).
+
 \begin{prop}
     Le système de Lorenz admet une unique solution sur $\R_+$ de classe $C^1$
 \end{prop}
 
 \begin{proof}
-    Premièrement on applique le théorème de Cauchy-Lipschitz \ref{thm:CL} à \ref{fLorenz}. $\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théorème de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution de classe $C^1$ sur $[0,T]$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = [0,T[,\ T \in ]0,+\infty]$. Montrons que $T = +\infty$. Dans \eqref{Lorenz} on s'intéresse à la somme de, $x$ fois première ligne avec $y$ fois la seconde ligne et $z$ fois la troisième ligne.
+    Premièrement on transforme le système de Lorenz sous la forme d'un problème d'ordre 1.
+    \begin{equation}
+        \label{fLorenz}
+        \deriv{\Vec{u}}{t} = \Gamma(\Vec{u}), \quad
+        \Gamma : \Vec{u} = \colv{x\\y\\z} \in \R^3 \mapsto \colv{\sigma(y-x) \\ \rho x-y-xz \\ xy-\beta z}
+    \end{equation}
+     \`A présent montrons l'existence des solutions de ce système. $\Gamma$ est $C^1$ donc elle est localement Lipschitzienne, de plus elle de depend pas directement du temps. D'après le théorème de Cauchy-Lipschitz, l'équation \eqref{Lorenz} admet une unique solution de classe $C^1$ sur $[0,T]$ que l'on notera $(I,(x,y,z))$ avec $I \subset \R_+$ avec $I = [0,T[,\ T \in ]0,+\infty]$. Montrons que $T = +\infty$. Dans \eqref{Lorenz} on s'intéresse à la somme de, $x$ fois première ligne avec $y$ fois la seconde ligne et $z$ fois la troisième ligne.
 \[
     xx'+yy'+zz' = \sigma yx - \sigma x^2 + \rho xy - y^2 -xyz + xyz - \beta z^2\\
 \]  
-Posons $\mathcal{N}: (t) \in \R^3 \mapsto x(t)^2 + y(t)^2 + z(t)^2$ ($\mathcal{N}$ est la norme euclidienne au carré)
+Posons $\mathcal{N}: (x,y,z) \in \mathcal{F}(\R,\R^3) \mapsto x^2 + y^2 + z^2$, c'est la norme euclidienne au carré. 
 
 \begin{align*}
     \Rightarrow \frac{1}{2}\deriv{ }{t}\mathcal{N}(t) & =(\sigma + \rho)x(t)y (t) -\sigma x^2(t) - y^2(t) - \beta z^2(t)\\
@@ -238,7 +238,7 @@ Maintenant on rappelle les résultats sur lesquels on s'appuira dans la suite. C
     Soit $f\in C^2(U;\R^d)$ sur un ouvert $U$ de $\R^d$ et $v\in U$ tel que $f(v)=0$. Si le spectre de $\mathcal{D}_\Gamma(v)$ est inclus dans le demi-plan ouvert $\left\{\lambda; \Re(\lambda)<0\right\}$ alors $v$ est un point d'équilibre assymptotiquement stable pour l'équation $u'=f(u)$
 \end{thm}
 
-Ce résultat nous permet de conclure sur le comportement assymtotique des solutions ayant subit une faible perturbation à l'instant de départ (\cad les solutions $(\R_+,u_1)$ telles que $u_1(t_{\text{init}})=u(t_{\text{init}})+\varepsilon,\ 0<\|\varepsilon\|\ll 1 $ ). On obtient ainsi $\lim_{t\to\infty}\|u-u_1\| = 0$.
+Ce résultat nous permet de conclure sur le comportement assymtotique des solutions ayant subit une faible perturbation à l'instant de départ. Ainsi deux solutions une ayant subit une perturbation à l'instant initial et l'autre non, approchent assymptotiquement la même trajectoire.
 
 \begin{thm}
     \label{thm:eq-instable}
@@ -247,7 +247,7 @@ Ce résultat nous permet de conclure sur le comportement assymtotique des soluti
 
 % commentaire sur le résultat
 
-Ces théorèmes nous donnent des résultats seulemment pour des valeurs propre toute strictement négative ou au moins une strictement positive. Cependant ces théorèmes ne nous permettent pas de conclure sur le cas où $0$ est valeur propre de la différentielle. Aussi il n'existe pas de résultats pour conclure sur la stabilité simple en étudiant le spectre de la différentielle.
+Ces théorèmes nous donnent des résultats seulemment pour des valeurs propres strictement négative ou strictement positive. Cependant ces théorèmes ne nous permettent pas de conclure sur le cas où $0$ est valeur propre de la différentielle. Il existe des résultats qui permettent de conclure sur la stabilité simple, cependant nous ne traiterons pas ce cas dans notre étude.
 
 \subsection{Détermination des équilibres}
 Dans un premier temps on regarde si notre système possède des équilibres et si oui lesquels.
@@ -343,6 +343,7 @@ Dans l'étude que l'on propose on vas distinguer 3 cas pour étudier la stabilit
 \addcontentsline{toc}{subsubsection}{\protect\numberline{} Cas $\Delta>0$}
 
 \begin{prop}
+    \label{prop:eqDsup0}
     Dans le cas $\Delta>0$ si $\beta<0$ l'équilibre $0_{\R^3}$ est instable, si $\beta >0$ on a :
     \begin{itemize}
         \item Si $\sigma(\rho-1)>0$ alors $0_{\R^3}$ est un équilibre instable pour \eqref{Lorenz}
@@ -438,6 +439,7 @@ Dans l'étude que l'on propose on vas distinguer 3 cas pour étudier la stabilit
 
 % Stabilité cas \Delta < 0
 \begin{prop}
+    \label{prop:eqDinf0}
     Dans le cas $\Delta<0$:
     Si $\beta <0$ l'équilibre est instable si $\beta>0$ alors on a:
     \begin{itemize}
@@ -471,7 +473,7 @@ Dans l'étude que l'on propose on vas distinguer 3 cas pour étudier la stabilit
     \]Pour étudier la stabilité on s'intéresse à la partie réelle de $\omega$ et $\bar{\omega}$. Or $\Re (\omega) = \Re (\bar{\omega}) = -\frac{\sigma+1}{2}$ on retombe ainsi sur le même calcul que dans la démonstration de la propriété \ref{prop:eqDeg0}. On retrouve bien le cas voulu.
 \end{proof}
 
-\subsection{Caractérisation de $S_\pm$}
+\subsection{Stabilité de $S_\pm$}
 
 Dans cette section nous allons nous intéresser au point d'équilibres définit précédemment $S_+$ et $S_-$. Nous ferons aussi quelques hypothèses simplificatrices, supposons $\sigma,\rho,\beta$ positifs et de plus $\sigma>\beta+1$.
 
@@ -486,6 +488,9 @@ Dans cette section nous allons nous intéresser au point d'équilibres définit 
 \begin{example}[Remarque]
     Si $\rho \in [0,1[$ les équilibres $S_\pm$ n'existent pas.
 \end{example}
+
+Nous admettrons le résultat ci-dessus, une démonstration est proposé dans la these de D. Jones \cite{daniel_jones_stability_2009}.
+
 \newpage
 \section{Méthodes numériques}
 
@@ -493,22 +498,20 @@ Dans cette section nous allons introduire les méthodes numériques pour la rés
 \begin{example}[Problématique]
     Pourquoi introduire des méthodes numériques pour la résolution des EDO ? 
 \end{example}
-Lorsque on étudie des équations differentielles la théorie nous permet sous certaines conditions d'affirmer que la solution à un problème de Cauchy existe et est maximale. Cependant leurs expressions explicites n'est pas garantie. Cependant lorsqu'on aborde les EDO non-linéaire, la plupart du temps nous ne sommes pas capable d'expliciter la solution analytique. C'est pourquoi on introduit les méthodes numériques.\\
-Commençons par introduire la forme générale d'une équation différentielle\footnote{NB: Ici on présente les méthodes numériques dans $\R^3$ on peut se ramener au cas d'un espace vectoriel plus général}.
-\[
-    u'(t) = f(t,u(t)),\quad \text{avec } f\in C^1(]a,b[ \times \R^3 ;\R^3)\text{ et }u : \R^3 \to \R^3
-\]
-Ici $u$ est la fonction à déterminer. Alors d'après le théorème de Cauchy-Lipschitz il existe une solution maximale et $C^1$ au problème de Cauchy suivant sur l'intervalle $[t_I,t_F] \subset ]a,b[ $:
+Lorsque on étudie des équations differentielles certains théorèmes comme celui de Cauchy-Lipschitz \ref{thm:CL}, nous permettent de prouver l'existence de solutions pour un problème de Cauchy. Cependant leurs forme explicite n'est pas garantie. Lorsqu'on aborde les EDO non-linéaire, la plupart du temps nous ne sommes pas capable d'expliciter la solution analytique. C'est pourquoi on introduit les méthodes numériques.\\
+Considérons un problème de Cauchy suivant.
 \[
     \left\{\begin{array}{l}
         u'(t)=f(t,u)\\
         u(t_I) = \nu
     \end{array}\right.
 \]
-Maintenant que nous savons que la solution existe sur un intervalle de temps fermé, on cherche a approcher les valeurs de la solution numériquement. Pour cela, on subdivise l'intervalle $[t_I,t_F]$ en $N$ sous intervalles et on calcule a l'aide d'un schéma numérique donné, la valeur approché de la solution pour tout les temps $t_n,\ 0\le n \le N$
+Ici $u$ est la fonction à déterminer sur l'intervalle $[t_I,t_F] \subset ]a,b[$\footnote{En effet ce problème de Cauchy verifie toutes les hypothèses du théorème de Cauchy-Lipschitz, en effet $f$ est $C^1$ donc localement Lipschitzienne.}.
+Maintenant que nous savons que la solution existe sur un intervalle de temps fermé ($[t_I,t_F]$), on cherche a approcher les valeurs de la solution numériquement. Pour cela, on subdivise l'intervalle $[t_I,t_F]$ en $N$ sous intervalles et on calcule a l'aide d'un schéma numérique donné, la valeur approché de la solution pour tout les temps $t_n,\ 0\le n \le N$
 
 \subsection*{Première méthode numérique, le schéma d'Euler explicite}
 \addcontentsline{toc}{subsection}{\protect\numberline{}Première méthode numérique, le schéma d'Euler explicite}
+
 On introduit maintenant la première méthode de résolution.
 \begin{definition}
     On note $(y_n)_{0 \le n \le N}$ la suite des approximations des valeurs de $u$ aux points $(t_n)_{0 \le n \le N}$. On appelle $h$ le pas de la méthode, et $h:= \frac{t_F-t_I}{N}$. Alors on a:
@@ -534,12 +537,13 @@ On introduit maintenant la première méthode de résolution.
         y_{n+1} = y_n + h f(t_n,y_n)
     \]De plus $u(t_0) = \nu = y_0$. On obtient alors le schéma d'Euler explicite.
 \end{example}
-Le schéma d'Euler est une méthode simple à utiliser et à implémenter. Cependant l'ordre de son erreur, en effet la méthode d'Euler est d'ordre 2 (\cad que l'érreur décroit comme une droite de pente 2 à l'échelle logarithmique selon le nombre de subdivision de notre intervalle de départ). 
+Le schéma d'Euler est une méthode simple à utiliser et à implémenter. Cependant cette méthode possède des inconvénients dont nous reparlerons plus tard. 
+
 \subsection*{Le schéma de Runge-Kutta 4}
 \addcontentsline{toc}{subsection}{\protect\numberline{} Le schéma de Runge-Kutta 4}
 
 On s'interresse maintenant au schémas de Runge-Kutta ces schémas sont des méthodes dites multi-pas (\cad on fait une moyenne pondérée de l'approximation en plusieurs points). Plus particulièrement, la méthode de Runge-Kutta 4.
-\begin{thm}
+\begin{definition}
     On approche les valeurs de la solution de l'équation differentielle par la suite $(y_n)_{0\le n \le N}$ sur l'intervalle $[t_I,t_F]$, avec $N$ le nombre de subdivision de l'intervalle. Alors on a: 
 
     \begin{align*}
@@ -551,75 +555,82 @@ On s'interresse maintenant au schémas de Runge-Kutta ces schémas sont des mét
     \end{align*}
     
     La méthode de Runge-Kutta 4 est d'ordre 4.
-\end{thm}
-On admet la démonstration de cette méthode. Aussi on la choisira pour illustrer les résultats sur le système de Lorenz. Les paramètres que nous utiliserons pour les modélisations à suivre, $[t_I,t_F] = [0,30], h = 0.01 \text{ et }u(t=0)= (6,4,2)$
+\end{definition}
+On la choisira pour illustrer les résultats sur le système de Lorenz. Les paramètres que nous utiliserons pour les modélisations à suivre, $[t_I,t_F] = [0,30], h = 0.01 \text{ et }u(t=0)= (6,4,2)$
+
+\subsection*{Erreur et ordre}
+\addcontentsline{toc}{subsection}{\protect\numberline{} Erreur et ordre}
+
+Commençons par définir les 2 notions introduites dans le titre de cette sous-partie.
+\begin{definition}
+    On définit l'erreur globale comme suit:
+    $$ e_n = u(t_{n+1}) - y_{n+1} $$
+    De plus on dit que un schéma est d'odre $p$ s'il existe un constante positive $C$, ne dépendent ni de $n$ ni de $h$ telle que:
+    $$ \max_{n\in 0,\dots,N} \|e_n\| \le C h^p$$
+\end{definition}
+Revennons sur les schéma présenté précédemment. Le schéma d'Euler est d'ordre 1, le schéma de Runge-Kutta 4 est d'ordre 4. C'est-\`a-dire pour un pas donné $h=10^{-2}$ l'erreur de la d'Euler sera $10^{-2}$, tandis que l'erreur de la méthode de Runge-Kutta 4 sera $10^{-8}$. Ainsi pour obtenir la même erreur avec la méthode d'Euler qu'avec la méthode de Runge-Kutta 4 il faudra générer plus de valeurs.
 
 \newpage
 \section{Interprétations}
-\begin{example}[Exemple]
-    Dans cette configuration (figure \ref{fig:EqINS-Dsup0}) on retombe sur les paramètre qui permettent d'observer la trajectoire en forme d'ailes de papillon décrite par E. Lorenz lors de son article de 1963\cite{lorenz_deterministic_1963}. La figure observé apparait pour les paramètres $(\sigma,\rho,\beta) = (10,28,8/3)$. D'après la proposition qui précède c'est donc un cas d'équilibre instable avec $\Delta>0$.
+Dans cette section on illustre à l'aide de méthodes numériques les résultats de stabilité démontré précédemment.
 
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width = \textwidth]{EqINS-Dsup0}
-        \caption{Exemple d'équilibre instable pour $\Delta>0$}
-        \label{fig:EqINS-Dsup0}
-    \end{figure}
+\begin{figure}[!ht]
+    \label{fig:EqAS-Dsup0}
+    \centering
+    \includegraphics[width = \textwidth]{EqAS-Dsup0}
+    \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta>0$}
+\end{figure}
 
-    Dans la figure \ref{fig:EqAS-Dsup0},on observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se rapprochent jusqu'a un écart très faible. Dans ce cas de figure il est possible de représenter les cas instable, ce qui ne sera pas le cas pour les prochains cas ($\Delta \le 0$).
-    
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width = \textwidth]{EqAS-Dsup0}
-        \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta>0$}
-        \label{fig:EqAS-Dsup0}
-    \end{figure}
-    
-\end{example}
-\begin{example}[Exemple]
-    Dans la figure \ref{fig:EqAS-Deg0}n observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se rapprochent jusqu'a un ecart très faible. Dans ce cas de figure il n'est pas intéressant de représenter le cas où l'équilibre est instable, car les solutions s'éloignent très rapidement de l'origine et entres elles.
-    \begin{figure}[ht]
-        \label{fig:EqAS-Deg0}
-        \centering
-        \includegraphics[width = \textwidth]{EqAS-Deg0}
-        \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta=0$}
-    \end{figure}
-\end{example}
+\begin{figure}[!ht]
+    \label{fig:EqAS-Deg0}
+    \centering
+    \includegraphics[width = \textwidth]{EqAS-Deg0}
+    \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta=0$}
+\end{figure}
 
-\begin{example}
-    On observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se rapprochent jusqu'a un écart très faible. Dans ce cas de figure il n'est pas intéressant de représenter le cas où l'équilibre est instable, car les solutions s'éloignent très rapidement de l'origine et entres elles.
-    
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width = \textwidth]{EqAS-Dinf0}
-        \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta=0$}
-    \end{figure}
-\end{example}
-\begin{example}[Exemple]
-    Dans la figure \ref{fig:Eq-Spm} on a $\rho \approx 26,66$, on observe alors:
-    \begin{itemize}
-        \item pour $\rho = 1/2$ on a que le système est très simple puisque les équilibre sont réduits a $0_{\R^3}$ de plus nous sommes dans le cas où $\Delta < 0$ et l'équilibre est assymptotiquement stable donc la solution vas directement vers $0_{\R^3}$
-        \item  Pour les cas $\rho = 10$ et $\rho =20$, on se retrouve dans le cas ou les équilibres existent et sont assymptotiquement stables car $\rho<\rho^*$, on observe bien que la trajectoire de la solution se raproche d'un équilibre et ne semble pas s'en éloigner.
-        \item Pour les cas restants on a, $\rho>\rho^*$ on observe alors que la trajectoire de la solution semble s'entendre dans l'espace sans jamais se diriger vers un équilibre. Cependant les solutions semblent rester dans une sous partie de l'espace.
-    \end{itemize}
-    \begin{figure}[ht]
-        \includegraphics[width=\textwidth]{Eq-Spm}
+\begin{figure}[!ht]
+    \label{fig:eqAS-Dinf0}
+    \centering
+    \includegraphics[width = \textwidth]{EqAS-Dinf0}
+    \caption{Exemple d'équilibre assymptotiquement stable pour $\Delta=0$}
+\end{figure}
+Dans les figure \ref{fig:EqAS-Dsup0} ,\ref{fig:EqAS-Deg0} et \ref{fig:eqAS-Dinf0}, on observe bien que les solutions commencent leurs trajectoires avec une distance l'une de l'autre et ensuite se rapprochent jusqu'a un écart très faible. On est dans les cas des propositions respectivement \ref{prop:eqDsup0},\ref{prop:eqDeg0} et \ref{prop:eqDinf0}, cela correspond bien aux cas d'un équilibre assymptotiquement stable.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = \textwidth]{EqINS-Dsup0}
+    \caption{Exemple d'équilibre instable pour $\Delta>0$}
+    \label{fig:EqINS-Dsup0}
+\end{figure}
+Dans cette configuration (figure \ref{fig:EqINS-Dsup0}) on retombe sur les paramètre qui permettent d'observer la trajectoire en forme d'ailes de papillon décrite par E.Lorenz lors de son article de 1963 \cite{edward_n_lorenz_deterministic_1963}. La figure observé apparait pour les paramètres $(\sigma,\rho,\beta) = (10,28,8/3)$. D'après la proposition \ref{prop:eqDsup0} c'est un équilibre instable pour \eqref{Lorenz}. Pour la période observé on observe aucune forme de stabilisation de la trajectoire autour de $0_{\R^3}$, c'est donc bien le cas d'un équilibre instable.
+
+\begin{figure}[!ht]
+    \begin{center}
+        
+        \includegraphics[height=0.73\textheight]{Eq-Spm}
         \label{fig:Eq-Spm}
         \caption{Solutions de \eqref{Lorenz} en fonction de $\rho$}
-    \end{figure}
-\end{example}
+    \end{center}
+\end{figure}
+
+Dans la figure \ref{fig:Eq-Spm} on a $\rho \approx 26,66$, on observe alors:
+\begin{itemize}
+    \item pour $\rho = 1/2$ on a que le système est très simple puisque les équilibre sont réduits a $0_{\R^3}$ de plus nous sommes dans le cas où $\Delta < 0$ et l'équilibre est assymptotiquement stable donc la solution vas directement vers $0_{\R^3}$
+    \item  Pour les cas $\rho = 10$ et $\rho =20$, on se retrouve dans le cas ou les équilibres existent et sont assymptotiquement stables car $\rho<\rho^*$, on observe bien que la trajectoire de la solution se raproche d'un équilibre et ne semble pas s'en éloigner.
+    \item Pour les cas restants on a, $\rho>\rho^*$ on observe alors que la trajectoire de la solution semble s'entendre dans l'espace sans jamais se diriger vers un équilibre. Cependant les solutions semblent rester dans une sous partie de l'espace.
+\end{itemize}
+
 \newpage
 \section{Conclusion}
 
-Au cours de notre étude à l'aide de l'exemple de l'attracteur de Lorenz, nous avons approché le concept de chaos dans les équations differentielles. Notre étude nous a permis de constater que les comportements singulier proviennent de faibles perturbations dans les conditions initiales. De plus ces comportements ne sont pas uniquement inhérent au conditions initiales ils dépendent de la configuration du système nous avons pu constater que il existe des jeux de paramètres, donc de configurations telles que les trajectoires des solutions ne fassent pas apparaître de comportement chaotique (On peut faire une analogie avec la mécanique des fluides, les système a grand nombre de Rayleigh sont autement chaotique à cause de faible viscosité, à contrario les systèmes a faible nombre de Rayleigh en forte présence de frottements ne sont pas sensibles au faibles perturbations. c'est d'ailleur la correspondance de $\rho$ dans les approximation de Lorenz). Ces mouvements qui pourrait sembler aléatoire sont enfait déterministe. Cependant dû à la difficulté de mesurer de mainière suffisament fiable les grandeurs qui évoluent dans le système, il en devient autement imprévisible. C'est ce que on à pu constater durant l'étude des équilibres.\\
-Pour continuer l'étude de ce système nous pourrions nous interresser au rapport entre l'attracteur de Lorenz et la "Tent map" qui permet de déterminer si il existe un seuil tel que le mouvement devienne chaotique.
+Au cours de notre étude à l'aide de l'exemple de l'attracteur de Lorenz, nous avons approché le concept de chaos dans les équations differentielles. Notre étude nous a permis de constater que les comportements singuliers proviennent de faibles perturbations dans les conditions initiales. De plus ces comportements ne sont pas uniquement inhérent au conditions initiales ils dépendent de la configuration du système nous avons pu constater qu'il existe des jeux de paramètres, donc de configurations telles que les trajectoires des solutions ne font pas apparaître de comportement chaotique (On peut faire une analogie avec la mécanique des fluides, les systèmes a grand nombre de Rayleigh sont autement chaotique à cause de faible viscosité, à contrario les systèmes a faible nombre de Rayleigh en forte présence de frottements ne sont pas sensibles au faibles perturbations. c'est d'ailleur la correspondance de $\rho$ dans les approximation de Lorenz). Ces mouvements qui pourraient sembler aléatoire sont en fait déterministe. Cependant dû à la difficulté de mesurer de mainière suffisament fiable les grandeurs qui évoluent dans le système, il en devient hautement imprévisible. C'est ce qu'on a pu constater durant l'étude des équilibres.
 
 \newpage
 \section{Annexes}
 \subsection*{Méthodes des rectangles}
 \addcontentsline{toc}{subsection}{\protect\numberline{}Méthodes des rectangles}
 La méthode des rectangles est une méthode numérique pour approximer le calcul d'intégrale. La méthode des rectangles consiste à approximer l'aire sous la courbe par un rectangle. On peut choisir la hauteur du rectangle de différentes manières (à gauche, au millieu et à gauche). Décrit dans l'image qui suit.
-\includegraphics[width=.9\textwidth]{MethodeRect}
+\includegraphics[width=\textwidth]{MethodeRect}
 
 Considérons l'intégrale bien définie suivante:
 \[

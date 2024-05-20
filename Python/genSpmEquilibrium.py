@@ -38,10 +38,19 @@ for r in range(len(rhol)):
         Yout = RK4(i*h,h,DATA[r,i-1],Lorenz)
         DATA[r,i] = Yout
 
-plt.style.use('ggplot')
+plt.style.use('seaborn-v0_8-notebook')
+plot_settings = {'ytick.labelsize': 16,
+                        'xtick.labelsize': 16,
+                        'font.size': 26,
+                        'axes.titlesize': 26,
+                        'axes.labelsize': 16,
+                        'legend.fontsize': 22,
+                        'mathtext.fontset': 'stix',
+                        'font.family': 'STIXGeneral'}
+plt.style.use(plot_settings)
 # fig = plt.figure(figsize=(9,6),  facecolor= '#E5E5E5')
 # axs = fig.add_subplot((3,2))
-fig,axs = plt.subplots(2,3,figsize=(18,12),layout = 'constrained', subplot_kw={'projection': '3d'},facecolor= '#E5E5E5', linewidth = .5)
+fig,axs = plt.subplots(3,2,figsize=(12,18),layout = 'constrained', subplot_kw={'projection': '3d'}, linewidth = .5)
 
 i = 0
 for ax in axs.flat:
@@ -68,5 +77,5 @@ for ax in axs.flat:
         print('Root')
     ax.plot(DATA[i,:,0],DATA[i,:,1],DATA[i,:,2],color = '#0000FF', alpha=.75)
     i += 1
-
+plt.savefig("spm.png")
 plt.show()

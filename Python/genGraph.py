@@ -9,9 +9,9 @@ plt.rcParams.update({
 })
 
 #Params
-sigma = .42
-rho = .42
-beta = .42
+sigma = 10
+rho = 28
+beta = 2.666
 C1 = [6,4,2]
 epsilon = .1
 C2 = [i + epsilon for i in C1]
@@ -51,8 +51,18 @@ for i in range(1,nbInterv):
 distance = [np.linalg.norm(Y1[i]-Y2[i]) for i in range(len(Y1))]
 
 #Graph param & init
-plt.style.use('ggplot')
-fig = plt.figure(figsize= (6,3) ,  facecolor= '#E5E5E5')
+plt.style.use('seaborn-v0_8-notebook')
+plot_settings = {'ytick.labelsize': 16,
+                        'xtick.labelsize': 16,
+                        'font.size': 26,
+                        'axes.titlesize': 26,
+                        'axes.labelsize': 16,
+                        'legend.fontsize': 22,
+                        'mathtext.fontset': 'stix',
+                        'font.family': 'STIXGeneral'}
+plt.style.use(plot_settings)
+
+fig = plt.figure(figsize= (12,6),layout="constrained")
 ax = fig.add_subplot(1,2,1,projection='3d')
 norm = fig.add_subplot(1,2,2)
 ax.grid(True)
@@ -69,16 +79,17 @@ ax.set_zlabel(r'Axe $z$')
 norm.set_xlabel(r'Temps $t$')
 
 StrTitle = f"Trajectoire de la solution du système de Lorenz\n avec $(\\sigma,\\rho,\\beta)=({sigma},{rho},{beta})$"
-ax.set_title(StrTitle, wrap = True,fontsize = 20)
-norm.set_title('Distance des solutions en fonction du temps',fontsize = 20)
+ax.set_title(StrTitle, wrap = True)
+norm.set_title('Distance des solutions en fonction du temps')
 
 #plot 
 ax.plot(Y1[:,0],Y1[:,1],Y1[:,2], color = '#0000FF', label ='Solution sans perturbation')
-ax.plot(Y2[:,0],Y2[:,1],Y2[:,2], label = f"Solution avec perturbation $\\varepsilon = $ {epsilon}")
+ax.plot(Y2[:,0],Y2[:,1],Y2[:,2], color = '#FF0000',label = f"Solution avec perturbation $\\varepsilon = $ {epsilon}")
 ax.plot([], [], ' ', label=f"Condtion initiale $x_0 = ${C1}")
 norm.plot(X,distance, color = '#0000FF', label ='Distance entre les solutions à l\'instant $t$')
 #norm.plot(X,epsilon*np.ones(len(X)), color = '#FF0000', marker = "-", alpha = .8, label= f"$\\varepsilon = $ {epsilon}")
 
-ax.legend(fontsize = 15)
-norm.legend(fontsize = 15)
+
+ax.legend()
+norm.legend()
 plt.show()
