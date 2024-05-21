@@ -4,11 +4,11 @@
 
 \usepackage{graphicx} % Required for inserting images
 \graphicspath{{ressources/}}
+\usepackage{csquotes}
 \usepackage[hyphens]{url}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{fancyhdr}
-\usepackage{csquotes}
 \usepackage{biblatex}
 \addbibresource{Attracteur de Lorenz.bib}
 
@@ -16,9 +16,8 @@
 
 \usepackage{tikz}
 \usepackage[firstpage = True]{background}
-\usepackage{wrapfig}
-
 \usepackage{array}
+\usepackage{epigraph}
 
 \pagestyle{fancy}
 \fancyhead{}
@@ -30,6 +29,9 @@
 
 \title{Système de Lorenz}
 
+\setlength \epigraphwidth {0.4\linewidth}
+\AtBeginDocument{\renewcommand {\epigraphflush}{center}}
+\renewcommand {\sourceflush} {center}
 
 \newcommand*\colv[1]{
 \left(\begin{array}{c}
@@ -73,7 +75,24 @@
         Second semestre - Année 2023-2024
     \end{center}
 \end{titlepage}
+\newpage
+\hfill
+\thispagestyle{empty}
+\newpage
 
+\thispagestyle{empty}
+\vspace*{\fill}
+\epigraph {\centering Je me rature ardemment. \\ Il faut n'écrire que le strict nécessaire.} {— Claude NOUGARO}
+\vspace*{\fill}
+\newpage
+
+\thispagestyle{empty}
+\vspace*{\fill}
+Nous tenons à remercier, notre professeur référent pour ce projet M. Filbet, pour le temps s'il a consacré à nous apprendre la méthodologie pour rédiger ce mémoire. La rigueur exigée sera un atout dans la poursuite de nos études.\\
+Nous remercions aussi l'ensemble de nos professeurs qui s'efforce de nous transmettre leur précieux savoir.\\
+Je tiens aussi à remercier mon père pour avoir relu et corriger ce document ainsi que pour son soutien indéfectible.
+\vspace*{\fill}
+\newpage
 \tableofcontents
 \thispagestyle{empty}
 \newpage
@@ -567,7 +586,15 @@ Commençons par définir les 2 notions introduites dans le titre de cette sous-p
     De plus on dit que un schéma est d'odre $p$ s'il existe un constante positive $C$, ne dépendent ni de $n$, ni de $h$ telle que:
     $$ \max_{n\in 0,\dots,N} \|e_n\| \le C h^p$$
 \end{definition}
-Revennons sur les schémas présentés précédemment. Le schéma d'Euler est d'ordre 1, le schéma de Runge-Kutta 4 est d'ordre 4. C'est-\`a-dire pour un pas donné $h=10^{-2}$ la norme de l'erreur de la d'Euler sera de l'ordre de $10^{-2}$, tandis que la norme de l'erreur de la méthode de Runge-Kutta 4 sera de l'ordre de $10^{-8}$. Ainsi pour obtenir la même erreur avec la méthode d'Euler qu'avec la méthode de Runge-Kutta 4, il faudra générer plus de valeurs.
+Revennons sur les schémas présentés précédemment. Le schéma d'Euler est d'ordre 1, le schéma de Runge-Kutta 4 est d'ordre 4. C'est-\`a-dire pour un pas donné $h=10^{-2}$ la norme de l'erreur de la d'Euler sera de l'ordre de $10^{-2}$, tandis que la norme de l'erreur de la méthode de Runge-Kutta 4 sera de l'ordre de $10^{-8}$. Ainsi pour obtenir la même erreur avec la méthode d'Euler qu'avec la méthode de Runge-Kutta 4, il faudra générer plus de valeurs.\\
+On compare les méthodes pour la résolution du problème de Cauchy $u'(t) = - u(t) \text{ et }u(0)=1$ sur l'intervalle $[0,1]$. On connait la solution exacte qui est $u : t \to e^{-t}$
+\begin{figure}[!ht]
+    \begin{center}
+        \includegraphics[width=\textwidth]{methodsError.png}
+        \caption{Comparaison des méthodes en fonction de N}
+    \end{center}
+\end{figure}
+On observe effectivement que la méthode Euler est d'ordre 1 et que la méthode de Runge-Kutta 4 est d'ordre 4. Sur le graphe de l'erreur de la méthode RK4 l'erreur dégénerre dû à l'accumulation d'erreur de précision machine car la méthode de Runge-Kutta 4 a une précision inférieure à la précision machine.
 
 \newpage
 \section{Interprétations}
@@ -605,7 +632,6 @@ Dans cette configuration (figure \ref{fig:EqINS-Dsup0}) on retombe sur les param
 
 \begin{figure}[!ht]
     \begin{center}
-        
         \includegraphics[height=0.73\textheight]{Eq-Spm}
         \label{fig:Eq-Spm}
         \caption{Solutions de \eqref{Lorenz} en fonction de $\rho$}
@@ -656,9 +682,9 @@ Méthodes des rectangles à droite:
 
 \subsection*{Code}
 \addcontentsline{toc}{subsection}{\protect\numberline{}Code}
-L'ensemble des graphes ont été génerés sur python à l'aide des bibliothèques Matplotlib et Numpy. Vous pouvez retrouver l'ensemble de ces codes sur le Github du projet ou sur filesender jusqu'au 29/05:
+L'ensemble des graphes ont été génerés sur python à l'aide des bibliothèques Matplotlib et Numpy. Vous pouvez retrouver l'ensemble de ces codes sur le Github du projet ou sur filesender jusqu'au 20/06/2024:
 \begin{itemize}
-    \item Filesender:\\ \url{https://filesender.renater.fr/?s=download&token=d4f04658-9db0-4820-ad5d-05dac5863664}
+    \item Filesender:\\ \url{https://filesender.renater.fr/?s=download&token=8ddd43a9-c73c-4fc9-b54e-8f3845f5c640}
     \item Github:\\ \url{https://github.com/N3rida/Projet}
 \end{itemize}
 Les correspondance des fichiers sont celles donné par ce tableau:\\
@@ -673,6 +699,8 @@ Les correspondance des fichiers sont celles donné par ce tableau:\\
     genSpmEquilibrium.py & graphe pour comparer l'évolution de la trajectoire autour des équilibre $S_\pm$ en fonction de $\rho$\\
     \hline
     genMethRect.py & graphe explicatif de la méthode des rectangles\\
+    \hline
+    methodsError & programme qui permet de comparer l'erreur entre la méthode de Euler et de Runge-Kutta 4\\
     \hline
 \end{tabular}
 
